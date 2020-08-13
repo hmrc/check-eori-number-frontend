@@ -14,28 +14,21 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.checkeorinumberfrontend.controllers
+package uk.gov.hmrc.checkeorinumberfrontend.connectors
 
-import javax.inject.{Inject, Singleton}
-
-import play.api.mvc._
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
+import javax.inject.Inject
+import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
 import uk.gov.hmrc.checkeorinumberfrontend.config.AppConfig
-import uk.gov.hmrc.checkeorinumberfrontend.views.html.HelloWorldPage
+import uk.gov.hmrc.checkeorinumberfrontend.models.{Check, CheckResponse}
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
-@Singleton
-class HelloWorldController @Inject()(
-  appConfig: AppConfig,
-  mcc: MessagesControllerComponents,
-  helloWorldPage: HelloWorldPage)
-    extends FrontendController(mcc) {
+class CheckEORINumberConnector @Inject()(
+  http: HttpClient,
+  appConfig: AppConfig
+)(implicit hc: HeaderCarrier, ec: ExecutionContext) {
 
-  implicit val config: AppConfig = appConfig
-
-  val helloWorld: Action[AnyContent] = Action.async { implicit request =>
-    Future.successful(Ok(helloWorldPage()))
-  }
+  def check(check: Check): Future[Some[CheckResponse]] =
+    http.GET[CheckResponse](url = s"${appConfig.chenUrl}/check/$check").map(Some(_))
 
 }

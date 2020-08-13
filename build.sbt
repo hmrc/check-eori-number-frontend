@@ -4,6 +4,8 @@ import uk.gov.hmrc.sbtdistributables.SbtDistributablesPlugin.publishingSettings
 
 val appName = "check-eori-number-frontend"
 
+PlayKeys.playDefaultPort := 8350
+
 val silencerVersion = "1.7.0"
 
 lazy val microservice = Project(appName, file("."))
