@@ -18,7 +18,7 @@ package uk.gov.hmrc.checkeorinumberfrontend.models
 
 import play.api.libs.json.{Json, OFormat}
 
-case class Check(eoriNumber: EORINumber)
+case class Check(eoriNumber: EoriNumber)
 
 object Check {
   implicit val checkFormat: OFormat[Check] = Json.format[Check]

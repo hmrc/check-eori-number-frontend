@@ -1,12 +1,14 @@
 # microservice specific routes
 
-->         /govuk-frontend          govuk.Routes
-->         /hmrc-frontend           hmrcfrontend.Routes
-
+->         /govuk-frontend                govuk.Routes
+->         /hmrc-frontend                 hmrcfrontend.Routes
 
 GET        /hello-world                   uk.gov.hmrc.checkeorinumberfrontend.controllers.HelloWorldController.helloWorld
+
+GET        /check                         uk.gov.hmrc.checkeorinumberfrontend.controllers.CheckEoriNumberController.checkForm()
+POST       /check                         uk.gov.hmrc.checkeorinumberfrontend.controllers.CheckEoriNumberController.submit()
 
 GET        /accessibility-statement:path  uk.gov.hmrc.checkeorinumberfrontend.controllers.AccessibilityStatementController.showAccessibilityStatement(path: String)
 GET        /feedback                      uk.gov.hmrc.checkeorinumberfrontend.controllers.ExitSurveyController.exitSurvey
 
-GET        /assets/*file            controllers.Assets.versioned(path = "/public", file: Asset)
+GET        /assets/*file                  controllers.Assets.versioned(path = "/public", file: Asset)

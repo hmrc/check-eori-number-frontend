@@ -1,6 +1,13 @@
-service.name = check-eori-number-frontend
-service.homePageUrl = /check-eori-number-frontend
-service.text = This is your new service
+service.name=Check a UK EORI number
+service.homePageUrl=/check-eori-number
+service.text=This is your new service
+continue.button=Continue
+
+checkpage.title=What is the UK EORI number you want to check?
+checkpage.hint=For example, GB123456789000
+checkpage.required=Enter the UK EORI number you want to check
+checkpage.format-invalid=Enter the UK EORI number you want to check in the correct format
+
 
 footer.cookies.text = Cookies
 footer.cookies.url = /help/cookies

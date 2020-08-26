@@ -23,12 +23,13 @@ import uk.gov.hmrc.checkeorinumberfrontend.models.{Check, CheckResponse}
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class CheckEORINumberConnector @Inject()(
+class CheckEoriNumberConnector @Inject()(
   http: HttpClient,
   appConfig: AppConfig
-)(implicit hc: HeaderCarrier, ec: ExecutionContext) {
+) {
 
-  def check(check: Check): Future[Some[CheckResponse]] =
+  def check(check: Check)
+    (implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Some[CheckResponse]] =
     http.GET[CheckResponse](url = s"${appConfig.chenUrl}/check/$check").map(Some(_))
 
 }

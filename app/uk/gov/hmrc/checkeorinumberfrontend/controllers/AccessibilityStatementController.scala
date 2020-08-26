@@ -21,7 +21,7 @@ import play.api.Environment
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.checkeorinumberfrontend.config.AppConfig
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.checkeorinumberfrontend.views.html.AccessibilityStatementPage
+import uk.gov.hmrc.checkeorinumberfrontend.views.html.templates.AccessibilityStatementPage
 
 class AccessibilityStatementController @Inject()
 (

@@ -1,4 +1,4 @@
-/*
+@*
  * Copyright 2020 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,20 +12,10 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ *@
 
-package uk.gov.hmrc.checkeorinumberfrontend
+@this(govukButton: GovukButton)
 
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
+@(msg: String)(implicit messages: Messages)
 
-package object models {
-
-  type CompanyName = String
-  type EoriNumber = String
-  type ProcessingDate = ZonedDateTime
-
-  implicit class RichProcessingDate(val self: ProcessingDate) {
-    override def toString: String = self.format(DateTimeFormatter.ofPattern("h:mma"))
-  }
-}
+@govukButton(Button(content = Text(messages(msg))))
