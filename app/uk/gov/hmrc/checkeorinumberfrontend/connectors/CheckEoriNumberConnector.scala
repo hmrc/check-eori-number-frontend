@@ -17,19 +17,25 @@
 package uk.gov.hmrc.checkeorinumberfrontend.connectors
 
 import javax.inject.Inject
+import play.api.{Configuration, Environment}
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
 import uk.gov.hmrc.checkeorinumberfrontend.config.AppConfig
 import uk.gov.hmrc.checkeorinumberfrontend.models.{Check, CheckResponse}
+import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 import scala.concurrent.{ExecutionContext, Future}
 
 class CheckEoriNumberConnector @Inject()(
   http: HttpClient,
-  appConfig: AppConfig
+  environment: Environment,
+  configuration: Configuration,
+  servicesConfig: ServicesConfig
 ) {
 
-  def check(check: Check)
-    (implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Some[CheckResponse]] =
-    http.GET[CheckResponse](url = s"${appConfig.chenUrl}/check/$check").map(Some(_))
+  private val chenUrl = s"${servicesConfig.baseUrl("check-eori-number")}/${servicesConfig.getConfString("check-eori-number.url", "")}"
+
+  def check(check: Check)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Some[CheckResponse]] = {
+    http.GET[CheckResponse](url = s"$chenUrl/check/${check.eoriNumber}").map(Some(_))
+  }
 
 }

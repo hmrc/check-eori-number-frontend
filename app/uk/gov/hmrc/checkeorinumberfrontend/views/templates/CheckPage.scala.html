@@ -29,12 +29,12 @@
 @(checkForm: Form[_])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
 @layout(pageTitle = Some("Check a UK Eori Number")) {
-    @formHelper(uk.gov.hmrc.checkeorinumberfrontend.controllers.routes.CheckEoriNumberController.submit) {
+    @formHelper(uk.gov.hmrc.checkeorinumberfrontend.controllers.routes.CheckEoriNumberController.result()) {
 
         @inputText(
             checkForm,
-            id = "target",
-            name = "target",
+            id = "eori",
+            name = "eori",
             label = "checkpage.title",
             isPageHeading = true,
             hint = Some(

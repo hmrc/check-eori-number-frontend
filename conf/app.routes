@@ -5,8 +5,8 @@
 
 GET        /hello-world                   uk.gov.hmrc.checkeorinumberfrontend.controllers.HelloWorldController.helloWorld
 
-GET        /check                         uk.gov.hmrc.checkeorinumberfrontend.controllers.CheckEoriNumberController.checkForm()
-POST       /check                         uk.gov.hmrc.checkeorinumberfrontend.controllers.CheckEoriNumberController.submit()
+GET        /enter-number                  uk.gov.hmrc.checkeorinumberfrontend.controllers.CheckEoriNumberController.checkForm()
+GET        /result                        uk.gov.hmrc.checkeorinumberfrontend.controllers.CheckEoriNumberController.result()
 
 GET        /accessibility-statement:path  uk.gov.hmrc.checkeorinumberfrontend.controllers.AccessibilityStatementController.showAccessibilityStatement(path: String)
 GET        /feedback                      uk.gov.hmrc.checkeorinumberfrontend.controllers.ExitSurveyController.exitSurvey

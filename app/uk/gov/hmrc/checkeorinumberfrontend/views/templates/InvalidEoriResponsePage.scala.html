@@ -1,4 +1,4 @@
-/*
+@*
  * Copyright 2020 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,21 +12,12 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ *@
 
-package uk.gov.hmrc.checkeorinumberfrontend.models
+@import uk.gov.hmrc.checkeorinumberfrontend.views.html._
+@import uk.gov.hmrc.checkeorinumberfrontend.models.CheckResponse
 
-import java.time.{ZoneId, ZonedDateTime}
+@this(layout: Layout)
 
-import play.api.libs.json.{Json, OFormat}
+@(checkResponse: CheckResponse)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
-case class CheckResponse (
-  isValidEori: Boolean,
-  eoriNumber: EoriNumber,
-  eoriRegisteredCompany: Option[EoriRegisteredCompany],
-  processingDate: ProcessingDate = ZonedDateTime.now.withZoneSameInstant(ZoneId.of("Europe/London"))
-)
-
-object CheckResponse {
-  implicit val checkResponseFormat: OFormat[CheckResponse] = Json.format[CheckResponse]
-}
