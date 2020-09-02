@@ -35,7 +35,7 @@ class CheckEoriNumberConnector @Inject()(
   private val chenUrl = s"${servicesConfig.baseUrl("check-eori-number")}/${servicesConfig.getConfString("check-eori-number.url", "")}"
 
   def check(check: Check)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Some[CheckResponse]] = {
-    http.GET[CheckResponse](url = s"$chenUrl/check/${check.eoriNumber}").map(Some(_))
+    http.GET[CheckResponse](url = s"$chenUrl/check-eori/${check.eoriNumber}").map(Some(_))
   }
 
 }

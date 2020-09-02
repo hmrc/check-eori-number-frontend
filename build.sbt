@@ -16,6 +16,9 @@ lazy val microservice = Project(appName, file("."))
     libraryDependencies              ++= AppDependencies.compile ++ AppDependencies.test,
     TwirlKeys.templateImports ++= Seq(
       "uk.gov.hmrc.checkeorinumberfrontend.config.AppConfig",
+      "uk.gov.hmrc.checkeorinumberfrontend.views.html._",
+      "uk.gov.hmrc.checkeorinumberfrontend.views.html.components._",
+      "uk.gov.hmrc.checkeorinumberfrontend.views.html.helpers._",
       "uk.gov.hmrc.govukfrontend.views.html.components._",
       "uk.gov.hmrc.govukfrontend.views.html.helpers._",
       "uk.gov.hmrc.hmrcfrontend.views.html.components._"

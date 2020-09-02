@@ -14,37 +14,45 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.checkeorinumberfrontend.config.AppConfig
-@import uk.gov.hmrc.checkeorinumberfrontend.views.html._
 @import uk.gov.hmrc.checkeorinumberfrontend.models.CheckResponse
 
-@this(layout: Layout)
+@this(layout: Layout, processingDateView: ProcessingDateView)
 
 @(checkResponse: CheckResponse)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
 @layout(pageTitle = Some("Check a UK Eori Number")) {
-    <div class="govuk-panel govuk-panel--confirmation">
-          <h1 class="govuk-panel__title">
-            Valid UK EORI number
-          </h1>
-          <div class="govuk-panel__body">
-            EORI number <br><strong>GB123456789000</strong>
-          </div>
-    </div>
-
-    <div class="govuk-grid-row">
-          <h2 class="govuk-heading-m grid-heading">EORI registration details</h2>
-          <div class="govuk-grid-column-one-half">
-            <dl>
-              <dt><h3 class="govuk-heading-s">Registered business name</h3></dt>
-              <dd class="govuk-body">Hazel Construction Ltd</dd>
-            </dl>
-            <dl>
-              <dt><h3 class="govuk-heading-s">Registered business address</h3></dt>
-              <dd class="govuk-body">ABC House<br>North Street<br>Brighton<br>BN1 3AB<br>United Kingdom</dd>
-            </dl>
-
-          </div>
-
-  </div>
+        <div class="govuk-panel govuk-panel--confirmation">
+              <h1 class="govuk-panel__title">
+                Valid UK EORI number
+              </h1>
+              <div class="govuk-panel__body">
+                EORI number<br><strong>@checkResponse.eoriNumber</strong>
+              </div>
+        </div>
+    @checkResponse.eoriRegisteredCompany.map { erc =>
+        <div>
+              <h2 class="govuk-heading-m">EORI registration details</h2>
+                <dl>
+                  <dt><h3 class="govuk-heading-s">Registered business name</h3></dt>
+                  <dd class="govuk-body">@erc.companyName</dd>
+                </dl>
+                <dl>
+                  <dt><h3 class="govuk-heading-s">Registered business address</h3></dt>
+                  <dd class="govuk-body">
+                      @for(l <- erc.address.lines){
+                          @l<br/>
+                      }
+                  </dd>
+                </dl>
+        </div>
+    }
+    @processingDateView(checkResponse.processingDate)
+    <p class="govuk-body">
+        <a href="javascript:window.print()">@Messages("result.print")</a>
+    </p>
+    <p class="govuk-body">
+        <a
+        href="@uk.gov.hmrc.checkeorinumberfrontend.controllers.routes.ExitSurveyController.exitSurvey()"
+        class="govuk-link">@messages("result.exit-survey.link")</a> @messages("result.exit-survey.content")
+    </p>
 }

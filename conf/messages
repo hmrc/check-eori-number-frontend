@@ -2,6 +2,7 @@ service.name=Check a UK EORI number
 service.homePageUrl=/check-eori-number
 service.text=This is your new service
 continue.button=Continue
+full.stop=.
 
 checkpage.title=What is the UK EORI number you want to check?
 checkpage.hint=For example, GB123456789000
@@ -10,6 +11,18 @@ checkpage.format-invalid=Enter the UK EORI number you want to check in the corre
 
 error.eori.required=Enter the UK EORI number you want to check
 error.eori.invalid=Enter the UK EORI number you want to check is in the correct format
+
+result.invalid.heading=Invalid UK EORI number
+result.invalid.searched-for=You searched for
+result.invalid.searched-for.eori=‘{0}’
+result.invalid.no-match=This does not match the EORI number of any UK EORI-registered business.
+
+result.processing-date=Search completed on {0}
+result.print=Print or save this page
+result.exit-survey.link=What did you think of this service?
+result.exit-survey.content=(takes 30 seconds)
+
+
 
 footer.cookies.text = Cookies
 footer.cookies.url = /help/cookies
