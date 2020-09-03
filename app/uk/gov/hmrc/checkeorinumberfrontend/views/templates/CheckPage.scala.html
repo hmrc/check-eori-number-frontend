@@ -23,7 +23,8 @@
         formHelper: FormWithCSRF,
         errorTemplate: ErrorTemplate,
         inputText: InputText,
-        button: Button
+        button: Button,
+        govukErrorSummary: GovukErrorSummary
 )
 
 @(checkForm: Form[_])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
@@ -31,6 +32,17 @@
 @layout(pageTitle =
         Some(messages("gov.uk.page-title", messages("checkpage.title")))) {
     @formHelper(uk.gov.hmrc.checkeorinumberfrontend.controllers.routes.CheckEoriNumberController.result()) {
+        @checkForm.errors.map { err =>
+            @govukErrorSummary(ErrorSummary(
+                errorList = Seq(
+                    ErrorLink(
+                        href = Some("#eori"),
+                        content = Text(s"${messages(err.message)}")
+                    )
+                ),
+                title = Text("There is a problem")
+            ))
+        }
 
         @inputText(
             checkForm,
