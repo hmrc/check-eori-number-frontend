@@ -14,17 +14,12 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.checkeorinumberfrontend.views.html._
-
 @import uk.gov.hmrc.checkeorinumberfrontend.models.ProcessingDate
 
 @import java.time.format.DateTimeFormatter
 @import java.time.zone.ZoneRulesProvider
 
-@this(layout: Layout)
-
 @(processingDate: ProcessingDate)(implicit request: Request[_], messages: Messages)
-
 
 @date_time_format(time: ProcessingDate) =  @{
     val rules = ZoneRulesProvider.getRules("Europe/London", true)

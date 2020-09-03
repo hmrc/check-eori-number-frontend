@@ -28,7 +28,8 @@
 
 @(checkForm: Form[_])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
-@layout(pageTitle = Some("Check a UK Eori Number")) {
+@layout(pageTitle =
+        Some(messages("gov.uk.page-title", messages("checkpage.title")))) {
     @formHelper(uk.gov.hmrc.checkeorinumberfrontend.controllers.routes.CheckEoriNumberController.result()) {
 
         @inputText(

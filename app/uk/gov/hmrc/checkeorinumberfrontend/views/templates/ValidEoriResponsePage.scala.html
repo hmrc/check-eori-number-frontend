@@ -16,28 +16,29 @@
 
 @import uk.gov.hmrc.checkeorinumberfrontend.models.CheckResponse
 
-@this(layout: Layout, processingDateView: ProcessingDateView)
+@this(layout: Layout)
 
 @(checkResponse: CheckResponse)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
-@layout(pageTitle = Some("Check a UK Eori Number")) {
+@layout(pageTitle =
+        Some(messages("gov.uk.page-title", messages("result.valid.heading")))) {
         <div class="govuk-panel govuk-panel--confirmation">
               <h1 class="govuk-panel__title">
-                Valid UK EORI number
+                @messages("result.valid.heading")
               </h1>
               <div class="govuk-panel__body">
-                EORI number<br><strong>@checkResponse.eoriNumber</strong>
+                  @messages("result.valid.eori")<br><strong>@checkResponse.eoriNumber</strong>
               </div>
         </div>
     @checkResponse.eoriRegisteredCompany.map { erc =>
         <div>
-              <h2 class="govuk-heading-m">EORI registration details</h2>
+              <h2 class="govuk-heading-m">@messages("result.valid.reg-details")</h2>
                 <dl>
-                  <dt><h3 class="govuk-heading-s">Registered business name</h3></dt>
+                  <dt><h3 class="govuk-heading-s">@messages("result.valid.reg-name")</h3></dt>
                   <dd class="govuk-body">@erc.companyName</dd>
                 </dl>
                 <dl>
-                  <dt><h3 class="govuk-heading-s">Registered business address</h3></dt>
+                  <dt><h3 class="govuk-heading-s">@messages("result.valid.reg-address")</h3></dt>
                   <dd class="govuk-body">
                       @for(l <- erc.address.lines){
                           @l<br/>
@@ -46,13 +47,8 @@
                 </dl>
         </div>
     }
-    @processingDateView(checkResponse.processingDate)
-    <p class="govuk-body">
-        <a href="javascript:window.print()">@Messages("result.print")</a>
-    </p>
-    <p class="govuk-body">
-        <a
-        href="@uk.gov.hmrc.checkeorinumberfrontend.controllers.routes.ExitSurveyController.exitSurvey()"
-        class="govuk-link">@messages("result.exit-survey.link")</a> @messages("result.exit-survey.content")
-    </p>
+    @processing_date(checkResponse.processingDate)
+    @print_button()
+    @search_again()
+    @exit_survey()
 }

@@ -5,6 +5,7 @@
 
 GET        /hello-world                   uk.gov.hmrc.checkeorinumberfrontend.controllers.HelloWorldController.helloWorld
 
+GET        /                              uk.gov.hmrc.checkeorinumberfrontend.controllers.CheckEoriNumberController.checkForm()
 GET        /enter-number                  uk.gov.hmrc.checkeorinumberfrontend.controllers.CheckEoriNumberController.checkForm()
 GET        /result                        uk.gov.hmrc.checkeorinumberfrontend.controllers.CheckEoriNumberController.result()
 

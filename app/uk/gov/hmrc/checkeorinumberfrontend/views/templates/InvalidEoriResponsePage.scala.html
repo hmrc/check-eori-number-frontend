@@ -16,26 +16,19 @@
 
 @import uk.gov.hmrc.checkeorinumberfrontend.models.CheckResponse
 
-@this(
-        layout: Layout,
-        exitSurveyView: ExitSurveyView,
-        processingDateView: ProcessingDateView,
-        printButton: PrintButton)
+@this(layout: Layout)
 
 @(checkResponse: CheckResponse)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
-@layout(pageTitle = Some("Check a UK Eori Number")) {
+@layout(pageTitle =
+        Some(messages("gov.uk.page-title", messages("result.invalid.heading")))) {
     <h1 class="govuk-heading-xl">@messages("result.invalid.heading")</h1>
     <p class="govuk-body-l">@messages("result.invalid.searched-for")
-        <span class="govuk-!-font-weight-bold">@messages("result.invalid.searched-for.eori", checkResponse.eoriNumber)</span>'
-    </p>@messages("full.stop")
+        <span class="govuk-!-font-weight-bold">@messages("result.invalid.searched-for.eori", checkResponse.eoriNumber)</span>@messages("full.stop")</p>
     <p class="govuk-body">@messages("result.invalid.no-match")</p>
 
-    @processingDateView(checkResponse.processingDate)
-    @printButton
-    <p class = "">
-        <a href="@uk.gov.hmrc.checkeorinumberfrontend.controllers.routes.CheckEoriNumberController.checkForm()">Search again</a>
-    </p>
-    @exitSurveyView
-
+    @processing_date(checkResponse.processingDate)
+    @print_button()
+    @search_again()
+    @exit_survey()
 }
