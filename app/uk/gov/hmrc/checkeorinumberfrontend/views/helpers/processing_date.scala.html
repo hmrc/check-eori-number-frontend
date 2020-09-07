@@ -1,0 +1,36 @@
+@*
+ * Copyright 2020 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import uk.gov.hmrc.checkeorinumberfrontend.models.ProcessingDate
+
+@import java.time.format.DateTimeFormatter
+@import java.time.zone.ZoneRulesProvider
+
+@(processingDate: ProcessingDate)(implicit request: Request[_], messages: Messages)
+
+@date_time_format(time: ProcessingDate) =  @{
+    val rules = ZoneRulesProvider.getRules("Europe/London", true)
+    if (rules.isDaylightSavings(time.toInstant)) {
+        to_lower_am_pm(time.format(DateTimeFormatter.ofPattern("d MMMM YYYY 'at' h:mm a 'BST'")))
+    } else {
+        to_lower_am_pm(time.format(DateTimeFormatter.ofPattern("d MMMM YYYY 'at' h:mm a O")))
+    }
+}
+@to_lower_am_pm(time: String) = @{
+    "(.*)( {1}[A,P]{1}M{1} {1})(.*)".r.replaceAllIn(time, x => s"${x.group(1)}${x.group(2).toLowerCase}${x.group(3)}")
+}
+
+<p class="govuk-body">@messages("result.processing-date", date_time_format(processingDate))</p>

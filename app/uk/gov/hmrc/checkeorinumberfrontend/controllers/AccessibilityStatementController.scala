@@ -16,26 +16,24 @@
 
 package uk.gov.hmrc.checkeorinumberfrontend.controllers
 
-import javax.inject.{Inject, Singleton}
-
-import play.api.mvc._
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
+import javax.inject.Inject
+import play.api.Environment
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.checkeorinumberfrontend.config.AppConfig
-import uk.gov.hmrc.checkeorinumberfrontend.views.html.HelloWorldPage
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
+import uk.gov.hmrc.checkeorinumberfrontend.views.html.templates.AccessibilityStatementPage
 
-import scala.concurrent.Future
-
-@Singleton
-class HelloWorldController @Inject()(
-  appConfig: AppConfig,
+class AccessibilityStatementController @Inject()
+(
   mcc: MessagesControllerComponents,
-  helloWorldPage: HelloWorldPage)
-    extends FrontendController(mcc) {
+  environment: Environment,
+  accessibilityStatementPage: AccessibilityStatementPage
+)(
+  implicit val appConfig: AppConfig
+) extends FrontendController(mcc) {
 
-  implicit val config: AppConfig = appConfig
-
-  val helloWorld: Action[AnyContent] = Action.async { implicit request =>
-    Future.successful(Ok(helloWorldPage()))
+  def showAccessibilityStatement(path: String): Action[AnyContent] = Action { implicit request =>
+    Ok(accessibilityStatementPage(path))
   }
 
 }
