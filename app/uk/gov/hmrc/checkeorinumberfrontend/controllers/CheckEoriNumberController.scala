@@ -79,12 +79,12 @@ class CheckEoriNumberController @Inject()(
       case _ => Valid
     }
 
-    private def vatNumberConstraint(key: String): Constraint[String] = Constraint {
+    private def eoriNumberConstraint(key: String): Constraint[String] = Constraint {
       case a if !a.matches(eoriRegex) => Invalid(s"error.$key.invalid")
       case _ => Valid
     }
 
     private def mandatoryEoriNumber(key: String): Mapping[String] = {
-      text.transform[String](_.trim, s => s).verifying(combine(required(key),vatNumberConstraint(key)))
+      text.transform[String](_.trim, s => s).verifying(combine(required(key),eoriNumberConstraint(key)))
     }
   }
