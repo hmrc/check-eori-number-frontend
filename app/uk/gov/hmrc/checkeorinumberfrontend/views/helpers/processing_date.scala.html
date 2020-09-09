@@ -33,4 +33,4 @@
     "(.*)( {1}[A,P]{1}M{1} {1})(.*)".r.replaceAllIn(time, x => s"${x.group(1)}${x.group(2).toLowerCase}${x.group(3)}")
 }
 
-<p class="govuk-body">@messages("result.processing-date", date_time_format(processingDate))</p>
+<p class="govuk-body-s">@messages("result.processing-date", date_time_format(processingDate))</p>

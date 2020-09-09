@@ -33,18 +33,16 @@
     @checkResponse.eoriRegisteredCompany.map { erc =>
         <div>
               <h2 class="govuk-heading-m">@messages("result.valid.reg-details")</h2>
-                <dl>
-                  <dt><h3 class="govuk-heading-s">@messages("result.valid.reg-name")</h3></dt>
-                  <dd class="govuk-body">@erc.companyName</dd>
-                </dl>
-                <dl>
-                  <dt><h3 class="govuk-heading-s">@messages("result.valid.reg-address")</h3></dt>
-                  <dd class="govuk-body">
-                      @for(l <- erc.address.lines){
-                          @l<br>
-                      }
-                  </dd>
-                </dl>
+                
+              <h3 class="govuk-heading-s">@messages("result.valid.reg-name")</h3>
+              <p class="govuk-body">@erc.companyName</p>
+              
+              <h3 class="govuk-heading-s">@messages("result.valid.reg-address")</h3>
+              <p class="govuk-body">
+                @for(l <- erc.address.lines){
+                  @l<br>
+                }
+              </p>
         </div>
     }
     @processing_date(checkResponse.processingDate)
