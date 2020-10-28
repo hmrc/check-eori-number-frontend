@@ -31,7 +31,6 @@
               </div>
         </div>
     @if(checkResponse.address.isDefined || checkResponse.traderName.isDefined) {
-
         <div>
             <h2 class="govuk-heading-m">@messages("result.valid.reg-details")</h2>
             @checkResponse.traderName.map { tn =>
