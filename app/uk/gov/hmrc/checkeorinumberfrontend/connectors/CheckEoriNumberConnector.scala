@@ -20,8 +20,8 @@ import javax.inject.Inject
 import play.api.{Configuration, Environment}
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
 import uk.gov.hmrc.checkeorinumberfrontend.config.AppConfig
-import uk.gov.hmrc.checkeorinumberfrontend.models.{Check, CheckResponse}
-import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
+import uk.gov.hmrc.checkeorinumberfrontend.models._
+import uk.gov.hmrc.checkeorinumberfrontend.models.internal.CheckSingleEoriNumberRequest
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -29,13 +29,21 @@ class CheckEoriNumberConnector @Inject()(
   http: HttpClient,
   environment: Environment,
   configuration: Configuration,
-  servicesConfig: ServicesConfig
+  appConfig: AppConfig
 ) {
 
-  private val chenUrl = s"${servicesConfig.baseUrl("check-eori-number")}/${servicesConfig.getConfString("check-eori-number.url", "")}"
-
-  def check(check: Check)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Some[CheckResponse]] = {
-    http.GET[CheckResponse](url = s"$chenUrl/check-eori/${check.eoriNumber}").map(Some(_))
+  def check(
+    checkSingleEoriNumberRequest: CheckSingleEoriNumberRequest
+  )(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[List[CheckResponse]]] = {
+    http.GET[List[CheckResponse]](
+      url = s"${appConfig.eisUrl}/check-eori/${checkSingleEoriNumberRequest.eoriNumber}").map(Some(_)
+    )
   }
 
+  //TODO strip out and only use multiple endpoint on api
+//  def checkMultiple(
+//    check: CheckMultipleEoriNumbersRequest
+//  )(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[CheckResponse]] = {
+//    http.POST[CheckMultipleEoriNumbersRequest, CheckResponse](s"${appConfig.eisUrl}/check-eori}", check).map(Some(_))
+//  }
 }

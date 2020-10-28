@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.checkeorinumberfrontend.models
+package uk.gov.hmrc.checkeorinumberfrontend.models.internal
 
 import play.api.libs.json.{Json, OFormat}
+import uk.gov.hmrc.checkeorinumberfrontend.models.EoriNumber
 
-case class Check(eoriNumber: EoriNumber)
+case class CheckSingleEoriNumberRequest(eoriNumber: EoriNumber)
 
-object Check {
-  implicit val checkFormat: OFormat[Check] = Json.format[Check]
+object CheckSingleEoriNumberRequest {
+  implicit val format: OFormat[CheckSingleEoriNumberRequest] = Json.format[CheckSingleEoriNumberRequest]
 }

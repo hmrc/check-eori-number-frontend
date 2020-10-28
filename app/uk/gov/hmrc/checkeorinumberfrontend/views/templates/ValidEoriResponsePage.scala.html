@@ -27,24 +27,29 @@
                 @messages("result.valid.heading")
               </h1>
               <div class="govuk-panel__body">
-                  @messages("result.valid.eori")<br><strong>@checkResponse.eoriNumber</strong>
+                  @messages("result.valid.eori")<br><strong>@checkResponse.eori</strong>
               </div>
         </div>
-    @checkResponse.eoriRegisteredCompany.map { erc =>
+    @if(checkResponse.address.isDefined || checkResponse.traderName.isDefined) {
+
         <div>
-              <h2 class="govuk-heading-m">@messages("result.valid.reg-details")</h2>
+            <h2 class="govuk-heading-m">@messages("result.valid.reg-details")</h2>
+            @checkResponse.traderName.map { tn =>
                 <dl>
-                  <dt><h3 class="govuk-heading-s">@messages("result.valid.reg-name")</h3></dt>
-                  <dd class="govuk-body">@erc.companyName</dd>
+                    <dt><h3 class="govuk-heading-s">@messages("result.valid.reg-name")</h3></dt>
+                    <dd class="govuk-body">@tn</dd>
                 </dl>
+            }
+            @checkResponse.address.map { addr =>
                 <dl>
                   <dt><h3 class="govuk-heading-s">@messages("result.valid.reg-address")</h3></dt>
                   <dd class="govuk-body">
-                      @for(l <- erc.address.lines){
-                          @l<br>
-                      }
+                      @addr.streetAndNumber <br>
+                      @addr.cityName <br>
+                      @addr.postcode
                   </dd>
                 </dl>
+            }
         </div>
     }
     @processing_date(checkResponse.processingDate)

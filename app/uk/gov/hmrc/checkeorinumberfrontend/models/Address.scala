@@ -19,26 +19,10 @@ package uk.gov.hmrc.checkeorinumberfrontend.models
 import play.api.libs.json.{Json, OFormat}
 
 case class Address(
-  line1: String,
-  line2: Option[String],
-  line3: Option[String],
-  line4: Option[String],
-  line5: Option[String],
-  postcode: Option[String],
-  countryCode: String
-) {
-  def lines: List[String] = {
-    line1 +: List(
-      line2,
-      line3,
-      line4,
-      line5,
-      postcode
-    ).collect { case Some(str) =>
-      str
-    } :+ countryCode
-  }
-}
+  streetAndNumber: String,
+  cityName: String,
+  postcode: String,
+)
 
 object Address {
   implicit val addressFormat: OFormat[Address] =

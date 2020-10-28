@@ -19,10 +19,10 @@ package uk.gov.hmrc.checkeorinumberfrontend.models
 import play.api.libs.json.{Json, OFormat}
 
 case class EoriRegisteredCompany(
-  companyName: CompanyName,
+  companyName: TraderName,
   address: Address
 )
 
 object EoriRegisteredCompany {
-  implicit val eoriRegisteredCompany: OFormat[EoriRegisteredCompany] = Json.format[EoriRegisteredCompany]
+  implicit val format: OFormat[EoriRegisteredCompany] = Json.format[EoriRegisteredCompany]
 }
