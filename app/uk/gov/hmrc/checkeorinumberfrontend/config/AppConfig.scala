@@ -27,13 +27,14 @@ class AppConfig @Inject()(config: Configuration, servicesConfig: ServicesConfig)
 
   val footerLinkItems: Seq[String] = config.getOptional[Seq[String]]("footerLinkItems").getOrElse(Seq())
 
-  private val contactHost = servicesConfig.getConfString(s"contact-frontend.host", "")
-  private val encoding = "UTF-8"
-  private val contactFormServiceIdentifier = config.get[String]("appName")
+  private val contactHost: String = servicesConfig.getConfString(s"contact-frontend.host", "")
+  private val encoding: String = "UTF-8"
+  private val contactFormServiceIdentifier: String = config.get[String]("appName")
+
+  lazy val chenUrl: String = servicesConfig.getConfString("check-eori-number.url", "")
+  lazy val eisUrl: String = s"${servicesConfig.baseUrl("check-eori-number")}/${chenUrl}"
 
   lazy val feedbackSurveyUrl: String = servicesConfig.getConfString("feedback-survey.url", "")
-  lazy val chenUrl: String = servicesConfig.getConfString("check-eori-number.url", "")
-
 
   def contactAccessibilityHelpDeskLink(path: String): String = {
     s"$contactHost/contact/accessibility?service=$contactFormServiceIdentifier&userAction=${encode(path, encoding)}"

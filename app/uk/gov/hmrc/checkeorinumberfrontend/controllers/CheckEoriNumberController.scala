@@ -17,13 +17,14 @@
 package uk.gov.hmrc.checkeorinumberfrontend.controllers
 
 import javax.inject.Inject
-import play.api.data.{Form, Mapping}
 import play.api.data.Forms.{mapping, text}
 import play.api.data.validation.{Constraint, Invalid, Valid}
-import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Request}
+import play.api.data.{Form, Mapping}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.checkeorinumberfrontend.config.AppConfig
 import uk.gov.hmrc.checkeorinumberfrontend.connectors.CheckEoriNumberConnector
-import uk.gov.hmrc.checkeorinumberfrontend.models.{Check, CheckResponse}
+import uk.gov.hmrc.checkeorinumberfrontend.models.CheckResponse
+import uk.gov.hmrc.checkeorinumberfrontend.models.internal.CheckSingleEoriNumberRequest
 import uk.gov.hmrc.checkeorinumberfrontend.views.html.templates.{CheckPage, InvalidEoriResponsePage, ValidEoriResponsePage}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 
@@ -47,24 +48,25 @@ class CheckEoriNumberController @Inject()(
     form.bindFromRequest().fold(
       errors => Future(BadRequest(checkPage(errors))),
       check => connector.check(check).flatMap {
-        case Some(response: CheckResponse) if response.isValidEori =>
-          Future.successful(Ok(validEoriResponsePage(response)))
-        case Some(response: CheckResponse) =>
-          Future.successful(Ok(invalidEoriResponsePage(response)))
+        case Some(response: List[CheckResponse]) if response.head.valid =>
+          Future.successful(Ok(validEoriResponsePage(response.head)))
+        case Some(response: List[CheckResponse]) =>
+          Future.successful(Ok(invalidEoriResponsePage(response.head)))
+        case _ => throw new MissingCheckResponseException
       }
     )
   }
-
+  class MissingCheckResponseException extends RuntimeException("no CheckResponse from CheckEoriNumberConnector")
 }
 
   object CheckEoriNumberController {
 
     private val eoriRegex: String = "^GB[0-9]{12,15}$"
 
-    val form: Form[Check] = Form(
+    val form: Form[CheckSingleEoriNumberRequest] = Form(
       mapping(
         "eori" -> mandatoryEoriNumber("eori")
-      )(Check.apply)(Check.unapply)
+      )(CheckSingleEoriNumberRequest.apply)(CheckSingleEoriNumberRequest.unapply)
     )
 
     private def combine[T](c1: Constraint[T], c2: Constraint[T]): Constraint[T] = Constraint { v =>

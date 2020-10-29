@@ -21,7 +21,7 @@ import java.time.format.DateTimeFormatter
 
 package object models {
 
-  type CompanyName = String
+  type TraderName = String
   type EoriNumber = String
   type ProcessingDate = ZonedDateTime
 

@@ -24,7 +24,7 @@
         Some(messages("gov.uk.page-title", messages("result.invalid.heading")))) {
     <h1 class="govuk-heading-xl">@messages("result.invalid.heading")</h1>
     <p class="govuk-body-l">@messages("result.invalid.searched-for")
-        <span class="govuk-!-font-weight-bold">@messages("result.invalid.searched-for.eori", checkResponse.eoriNumber)</span>@messages("full.stop")</p>
+        <span class="govuk-!-font-weight-bold">@messages("result.invalid.searched-for.eori", checkResponse.eori)</span>@messages("full.stop")</p>
     <p class="govuk-body">@messages("result.invalid.no-match")</p>
 
     @processing_date(checkResponse.processingDate)
