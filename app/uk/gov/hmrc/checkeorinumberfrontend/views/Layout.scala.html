@@ -20,12 +20,20 @@
 
 @this(
         govukLayout: GovukLayout,
-        head: Head
+        head: Head,
+        hmrcReportTechnicalIssue: HmrcReportTechnicalIssue
 )
 @(pageTitle: Option[String] = None,
         headBlock: Option[Html] = None,
         scriptsBlock: Option[Html] = None
 )(contentBlock: Html)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+
+@content = {
+    @contentBlock
+    @hmrcReportTechnicalIssue(
+        ReportTechnicalIssue(appConfig.serviceName, Some(messages.lang.language))
+    )
+}
 
 @govukLayout(
     pageTitle = pageTitle,
@@ -33,4 +41,4 @@
     scriptsBlock = scriptsBlock,
     beforeContentBlock = None,
     footerItems = FooterLinks()
-)(contentBlock)
+)(content)

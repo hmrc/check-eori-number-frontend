@@ -29,7 +29,9 @@ class AppConfig @Inject()(config: Configuration, servicesConfig: ServicesConfig)
 
   private val contactHost: String = servicesConfig.getConfString(s"contact-frontend.host", "")
   private val encoding: String = "UTF-8"
-  private val contactFormServiceIdentifier: String = config.get[String]("appName")
+
+  lazy val serviceName: String = config.get[String]("serviceName")
+  lazy val appAcronym: String = config.get[String]("appAcronym")
 
   lazy val chenUrl: String = servicesConfig.getConfString("check-eori-number.url", "")
   lazy val eisUrl: String = s"${servicesConfig.baseUrl("check-eori-number")}/${chenUrl}"
@@ -37,7 +39,7 @@ class AppConfig @Inject()(config: Configuration, servicesConfig: ServicesConfig)
   lazy val feedbackSurveyUrl: String = servicesConfig.getConfString("feedback-survey.url", "")
 
   def contactAccessibilityHelpDeskLink(path: String): String = {
-    s"$contactHost/contact/accessibility?service=$contactFormServiceIdentifier&userAction=${encode(path, encoding)}"
+    s"$contactHost/contact/accessibility?service=$serviceName&userAction=${encode(path, encoding)}"
   }
 
 }
