@@ -30,7 +30,16 @@
                   @messages("result.valid.eori")<br><strong>@checkResponse.eori</strong>
               </div>
         </div>
-    @if(checkResponse.address.isDefined || checkResponse.traderName.isDefined) {
+    @if(!checkResponse.detailsVisible) {
+        <div>
+            <h2 class="govuk-heading-m">@messages("result.valid.reg-details-not-available")</h2>
+        </div>
+        <p class="govuk-body">
+            @messages("result.valid.reg-details-not-available.p")
+        </p>
+    } else {
+@* TODO - clarify if traderName and address can be defined independently (see ticket)        *@
+@*    @if(checkResponse.address.isDefined || checkResponse.traderName.isDefined) {*@
         <div>
             <h2 class="govuk-heading-m">@messages("result.valid.reg-details")</h2>
             @checkResponse.traderName.map { tn =>

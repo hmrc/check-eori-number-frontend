@@ -26,7 +26,12 @@ case class CheckResponse (
   traderName: Option[TraderName],
   address: Option[Address],
   processingDate: ProcessingDate = ZonedDateTime.now.withZoneSameInstant(ZoneId.of("Europe/London"))
-)
+) {
+  // TODO if traderName and address are always coupled (both defined or both not)
+  // we should have a CompanyDetails(name, address) case class and make this optional
+  // on CheckResponse
+  def detailsVisible: Boolean = traderName.isDefined && address.isDefined
+}
 
 object CheckResponse {
   implicit val format: OFormat[CheckResponse] = Json.format[CheckResponse]

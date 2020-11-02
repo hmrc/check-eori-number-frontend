@@ -16,6 +16,8 @@ error.eori.invalid=Enter the UK EORI number you want to check is in the correct 
 result.valid.heading=Valid UK EORI number
 result.valid.eori=EORI number
 result.valid.reg-details=EORI registration details
+result.valid.reg-details-not-available=EORI registration details not available
+result.valid.reg-details-not-available.p=For data protection reasons, we cannot show the name and address of the business that this EORI number is registered to.
 result.valid.reg-name=Registered business name
 result.valid.reg-address=Registered business address
 
