@@ -90,7 +90,7 @@ class CheckEoriNumberControllerSpec extends BaseSpec {
 
   class MockCheckEoriNumberConnector extends CheckEoriNumberConnector {
 
-    val mockResponse = List(CheckResponse(eoriNumber, true, None, None))
+    val mockResponse = List(CheckResponse(eoriNumber, true, None))
 
     def check(
       check: CheckSingleEoriNumberRequest
