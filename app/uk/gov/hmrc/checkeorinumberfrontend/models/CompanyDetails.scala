@@ -16,17 +16,13 @@
 
 package uk.gov.hmrc.checkeorinumberfrontend.models
 
-import java.time.{ZoneId, ZonedDateTime}
-
 import play.api.libs.json.{Json, OFormat}
 
-case class CheckResponse (
-  eori: EoriNumber,
-  valid: Boolean,
-  companyDetails: Option[CompanyDetails],
-  processingDate: ProcessingDate = ZonedDateTime.now.withZoneSameInstant(ZoneId.of("Europe/London"))
+case class CompanyDetails (
+  traderName: TraderName,
+  address: Address
 )
 
-object CheckResponse {
-  implicit val format: OFormat[CheckResponse] = Json.format[CheckResponse]
+object CompanyDetails {
+  implicit val format: OFormat[CompanyDetails] = Json.format[CompanyDetails]
 }
