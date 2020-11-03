@@ -22,15 +22,23 @@ import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
 import uk.gov.hmrc.checkeorinumberfrontend.config.AppConfig
 import uk.gov.hmrc.checkeorinumberfrontend.models._
 import uk.gov.hmrc.checkeorinumberfrontend.models.internal.CheckSingleEoriNumberRequest
+import com.google.inject.ImplementedBy
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class CheckEoriNumberConnector @Inject()(
+@ImplementedBy(classOf[CheckEoriNumberConnectorImpl])
+trait CheckEoriNumberConnector {
+  def check(
+    checkSingleEoriNumberRequest: CheckSingleEoriNumberRequest
+  )(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[List[CheckResponse]]]
+}
+
+class CheckEoriNumberConnectorImpl @Inject()(
   http: HttpClient,
   environment: Environment,
   configuration: Configuration,
   appConfig: AppConfig
-) {
+) extends CheckEoriNumberConnector {
 
   def check(
     checkSingleEoriNumberRequest: CheckSingleEoriNumberRequest
