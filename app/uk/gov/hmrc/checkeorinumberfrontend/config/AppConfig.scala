@@ -25,8 +25,6 @@ import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 @Singleton
 class AppConfig @Inject()(config: Configuration, servicesConfig: ServicesConfig) {
 
-  val footerLinkItems: Seq[String] = config.getOptional[Seq[String]]("footerLinkItems").getOrElse(Seq())
-
   private val contactHost: String = servicesConfig.getConfString(s"contact-frontend.host", "")
   private val encoding: String = "UTF-8"
 
