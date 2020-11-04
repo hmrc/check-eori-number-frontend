@@ -23,8 +23,7 @@ import play.api.libs.json.{Json, OFormat}
 case class CheckResponse (
   eori: EoriNumber,
   valid: Boolean,
-  traderName: Option[TraderName],
-  address: Option[Address],
+  companyDetails: Option[CompanyDetails],
   processingDate: ProcessingDate = ZonedDateTime.now.withZoneSameInstant(ZoneId.of("Europe/London"))
 )
 

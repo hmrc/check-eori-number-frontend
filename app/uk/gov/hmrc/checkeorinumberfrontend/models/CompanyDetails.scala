@@ -1,4 +1,4 @@
-@*
+/*
  * Copyright 2020 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,22 +12,17 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *@
+ */
 
-@import uk.gov.hmrc.checkeorinumberfrontend.config.AppConfig
+package uk.gov.hmrc.checkeorinumberfrontend.models
 
-@this(layout: Layout)
+import play.api.libs.json.{Json, OFormat}
 
-@()(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+case class CompanyDetails (
+  traderName: TraderName,
+  address: Address
+)
 
-@layout(pageTitle = Some("check-eori-number-frontend")) {
-    <h1 class="govuk-heading-xl">check-eori-number-frontend</h1>
-    <p class="govuk-body">@{messages("service.text")}</p>
-    <p>
-        <a
-        target="_blank"
-        rel="noreferrer"
-        href="@uk.gov.hmrc.checkeorinumberfrontend.controllers.routes.ExitSurveyController.exitSurvey"
-        id="exit-survey">@Messages("exitsurvey.link.copy")</a>
-    </p>
+object CompanyDetails {
+  implicit val format: OFormat[CompanyDetails] = Json.format[CompanyDetails]
 }
