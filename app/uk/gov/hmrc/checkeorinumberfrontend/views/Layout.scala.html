@@ -15,13 +15,15 @@
  *@
 
 @import uk.gov.hmrc.checkeorinumberfrontend.config.AppConfig
-@import uk.gov.hmrc.checkeorinumberfrontend.views.FooterLinks
 @import uk.gov.hmrc.govukfrontend.views.Layouts
+@import uk.gov.hmrc.hmrcfrontend.views.config._
+
 
 @this(
         govukLayout: GovukLayout,
         head: Head,
-        hmrcReportTechnicalIssue: HmrcReportTechnicalIssue
+        hmrcReportTechnicalIssue: HmrcReportTechnicalIssue,
+        hmrcFooterItems: HmrcFooterItems
 )
 @(pageTitle: Option[String] = None,
         headBlock: Option[Html] = None,
@@ -40,5 +42,5 @@
     headBlock = Some(head(headBlock)),
     scriptsBlock = scriptsBlock,
     beforeContentBlock = None,
-    footerItems = FooterLinks()
+    footerItems = hmrcFooterItems.get
 )(content)
