@@ -41,18 +41,14 @@
         <div>
             <h2 class="govuk-heading-m">@messages("result.valid.reg-details")</h2>
             @checkResponse.companyDetails.map { companyDetails =>
-                <dl>
-                    <dt><h3 class="govuk-heading-s">@messages("result.valid.reg-name")</h3></dt>
-                    <dd class="govuk-body">@companyDetails.traderName</dd>
-                </dl>
-                <dl>
-                  <dt><h3 class="govuk-heading-s">@messages("result.valid.reg-address")</h3></dt>
-                  <dd class="govuk-body">
-                      @companyDetails.address.streetAndNumber <br>
-                      @companyDetails.address.cityName <br>
-                      @companyDetails.address.postcode
-                  </dd>
-                </dl>
+                <h3 class="govuk-heading-s">@messages("result.valid.reg-name")</h3>
+                <p class="govuk-body">@companyDetails.traderName</p>
+                <h3 class="govuk-heading-s">@messages("result.valid.reg-address")</h3>
+                <p class="govuk-body">
+                    @companyDetails.address.streetAndNumber <br>
+                    @companyDetails.address.cityName <br>
+                    @companyDetails.address.postcode
+                </p>
             }
         </div>
     }
