@@ -1,19 +1,19 @@
-service.name=Check a UK EORI number
+service.name=Check an EORI number
 service.homePageUrl=/check-eori-number
-gov.uk.page-title={0} - Check a UK EORI Number - GOV.UK
+gov.uk.page-title={0} - Check an EORI Number - GOV.UK
 service.text=This is your new service
 continue.button=Continue
 full.stop=.
 
-checkpage.title=What is the UK EORI number you want to check?
+checkpage.title=What is the GB EORI number you want to check?
 checkpage.hint=For example, GB123456789000
-checkpage.required=Enter the UK EORI number you want to check
-checkpage.format-invalid=Enter the UK EORI number you want to check in the correct format
+checkpage.required=Enter the GB EORI number you want to check
+checkpage.format-invalid=Enter the GB EORI number you want to check in the correct format
 
-error.eori.required=Enter the UK EORI number you want to check
-error.eori.invalid=Enter the UK EORI number you want to check is in the correct format
+error.eori.required=Enter the GB EORI number you want to check
+error.eori.invalid=Enter the GB EORI number you want to check is in the correct format
 
-result.valid.heading=Valid UK EORI number
+result.valid.heading=Valid GB EORI number
 result.valid.eori=EORI number
 result.valid.reg-details=EORI registration details
 result.valid.reg-details-not-available=EORI registration details not available
@@ -21,10 +21,16 @@ result.valid.reg-details-not-available.p=For data protection reasons, we cannot 
 result.valid.reg-name=Registered business name
 result.valid.reg-address=Registered business address
 
-result.invalid.heading=Invalid UK EORI number
+result.invalid.heading=Invalid GB EORI number
 result.invalid.searched-for=You searched for
 result.invalid.searched-for.eori=‘{0}’
-result.invalid.no-match=This does not match the EORI number of any UK EORI-registered business.
+result.invalid.no-match=This does not match the EORI number of any GB EORI-registered business.
+
+result.xi.heading=You need to use a different service
+result.xi.searched-for=You searched for
+result.xi.searched-for.eori=‘{0}’
+result.xi.europa.content=To check an EORI number that starts with XI, use the
+result.xi.europa.link=EORI checker service on the European Commission website (opens in new tab)
 
 result.processing-date=Search completed on {0}
 result.print=Print or save this page

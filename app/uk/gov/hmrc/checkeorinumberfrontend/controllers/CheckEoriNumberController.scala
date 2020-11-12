@@ -25,7 +25,7 @@ import uk.gov.hmrc.checkeorinumberfrontend.config.AppConfig
 import uk.gov.hmrc.checkeorinumberfrontend.connectors.CheckEoriNumberConnector
 import uk.gov.hmrc.checkeorinumberfrontend.models.CheckResponse
 import uk.gov.hmrc.checkeorinumberfrontend.models.internal.CheckSingleEoriNumberRequest
-import uk.gov.hmrc.checkeorinumberfrontend.views.html.templates.{CheckPage, InvalidEoriResponsePage, ValidEoriResponsePage}
+import uk.gov.hmrc.checkeorinumberfrontend.views.html.templates._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -35,7 +35,8 @@ class CheckEoriNumberController @Inject()(
   connector: CheckEoriNumberConnector,
   checkPage: CheckPage,
   validEoriResponsePage: ValidEoriResponsePage,
-  invalidEoriResponsePage: InvalidEoriResponsePage
+  invalidEoriResponsePage: InvalidEoriResponsePage,
+  xiEoriResponsePage: XIEoriResponsePage
 )(implicit config: AppConfig, ec: ExecutionContext) extends FrontendController(mcc) {
 
   import CheckEoriNumberController.form
@@ -48,10 +49,12 @@ class CheckEoriNumberController @Inject()(
     form.bindFromRequest().fold(
       errors => Future(BadRequest(checkPage(errors))),
       check => connector.check(check).flatMap {
-        case Some(response: List[CheckResponse]) if response.head.valid =>
-          Future.successful(Ok(validEoriResponsePage(response.head)))
-        case Some(response: List[CheckResponse]) =>
-          Future.successful(Ok(invalidEoriResponsePage(response.head)))
+        case Some(head::_) if head.eori.matches("XI[0-9]{12,15}$") =>
+          Future.successful(Ok(xiEoriResponsePage(head)))
+        case Some(head::_) if head.valid =>
+          Future.successful(Ok(validEoriResponsePage(head)))
+        case Some(head::_) =>
+          Future.successful(Ok(invalidEoriResponsePage(head)))
         case _ => throw new MissingCheckResponseException
       }
     )
@@ -61,7 +64,7 @@ class CheckEoriNumberController @Inject()(
 
   object CheckEoriNumberController {
 
-    private val eoriRegex: String = "^GB[0-9]{12,15}$"
+    private val eoriRegex: String = "^(GB|XI)[0-9]{12,15}$"
 
     val form: Form[CheckSingleEoriNumberRequest] = Form(
       mapping(
