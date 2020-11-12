@@ -21,7 +21,7 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.checkeorinumberfrontend.models.{EoriNumber, CheckResponse}
 import uk.gov.hmrc.checkeorinumberfrontend.models.internal.CheckSingleEoriNumberRequest
-import uk.gov.hmrc.checkeorinumberfrontend.views.html.templates.{CheckPage, InvalidEoriResponsePage, ValidEoriResponsePage}
+import uk.gov.hmrc.checkeorinumberfrontend.views.html.templates._
 import uk.gov.hmrc.checkeorinumberfrontend.utils.BaseSpec
 import uk.gov.hmrc.checkeorinumberfrontend.connectors.CheckEoriNumberConnector
 import uk.gov.hmrc.checkeorinumberfrontend.models.{EoriNumber, CheckResponse}
@@ -35,14 +35,17 @@ class CheckEoriNumberControllerSpec extends BaseSpec {
   val checkPage: CheckPage = app.injector.instanceOf[CheckPage]
   val validEoriResponsePage: ValidEoriResponsePage = app.injector.instanceOf[ValidEoriResponsePage]
   val invalidEoriResponsePage: InvalidEoriResponsePage = app.injector.instanceOf[InvalidEoriResponsePage]
-  val eoriNumber: EoriNumber = "GB123456789000"
+  val xiEoriResponsePage: XIEoriResponsePage = app.injector.instanceOf[XIEoriResponsePage]
+  val eoriNumber: EoriNumber = "GB123456787665"
+  val xiEoriNumber: EoriNumber = "XI12345678912345"
 
   val controller = new CheckEoriNumberController(
     mcc,
     new MockCheckEoriNumberConnector,
     checkPage,
     validEoriResponsePage,
-    invalidEoriResponsePage
+    invalidEoriResponsePage,
+    xiEoriResponsePage
   )
 
   "GET /" should {
@@ -64,20 +67,28 @@ class CheckEoriNumberControllerSpec extends BaseSpec {
   }
 
   "POST /result" should {
-    val request = FakeRequest("POST", "/results")
+    val validRequest = FakeRequest("POST", "/results")
       .withFormUrlEncodedBody("eori" -> eoriNumber)
+
+    val validXIRequest = FakeRequest("POST", "/results")
+      .withFormUrlEncodedBody("eori" -> xiEoriNumber)
 
     val badRequest = FakeRequest("POST", "/results")
       .withFormUrlEncodedBody("eori" -> "GB999999999999")
 
     "return 200" in {
-      val result = controller.result(request)
+      val result = controller.result(validRequest)
       status(result) shouldBe Status.OK
     }
 
     "contain content for valid EORI" in {
-      val result = controller.result(request)
+      val result = controller.result(validRequest)
       contentAsString(result) should include(messagesApi("result.valid.heading"))
+    }
+
+    "contain content for an XI EORI" in {
+      val result = controller.result(validXIRequest)
+      contentAsString(result) should include(messagesApi("result.xi.heading"))
     }
 
     "contain content for invalid EORI" in {
@@ -90,13 +101,14 @@ class CheckEoriNumberControllerSpec extends BaseSpec {
 
   class MockCheckEoriNumberConnector extends CheckEoriNumberConnector {
 
-    val mockResponse = List(CheckResponse(eoriNumber, true, None))
+    val mockValidResponse = List(CheckResponse(eoriNumber, true, None))
 
     def check(
       check: CheckSingleEoriNumberRequest
     )(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[List[CheckResponse]]] = check.eoriNumber match {
-      case `eoriNumber` => Future.successful(Some(mockResponse))
-      case _ => Future.successful(Some(mockResponse.map(_.copy(valid = false))))
+      case `eoriNumber` => Future.successful(Some(mockValidResponse))
+      case `xiEoriNumber` => Future.successful(Some(mockValidResponse.map(_.copy(eori = xiEoriNumber))))
+      case _ => Future.successful(Some(mockValidResponse.map(_.copy(valid = false))))
     }
   }
 
