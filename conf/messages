@@ -8,10 +8,10 @@ full.stop=.
 checkpage.title=What is the GB EORI number you want to check?
 checkpage.hint=For example, GB123456789000
 checkpage.required=Enter the GB EORI number you want to check
-checkpage.format-invalid=Enter the GB EORI number you want to check in the correct format
+checkpage.format-invalid=Enter the GB EORI number in the correct format
 
 error.eori.required=Enter the GB EORI number you want to check
-error.eori.invalid=Enter the GB EORI number you want to check is in the correct format
+error.eori.invalid=Enter the GB EORI number in the correct format
 
 result.valid.heading=Valid GB EORI number
 result.valid.eori=EORI number
