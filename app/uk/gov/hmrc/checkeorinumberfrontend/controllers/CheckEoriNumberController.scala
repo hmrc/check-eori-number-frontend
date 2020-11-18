@@ -23,7 +23,6 @@ import play.api.data.{Form, Mapping}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.checkeorinumberfrontend.config.AppConfig
 import uk.gov.hmrc.checkeorinumberfrontend.connectors.CheckEoriNumberConnector
-import uk.gov.hmrc.checkeorinumberfrontend.models.CheckResponse
 import uk.gov.hmrc.checkeorinumberfrontend.models.internal.CheckSingleEoriNumberRequest
 import uk.gov.hmrc.checkeorinumberfrontend.views.html.templates._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController

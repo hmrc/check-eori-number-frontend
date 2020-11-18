@@ -19,14 +19,16 @@
 @this(layout: Layout)
 
 @()(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
-@layout(pageTitle = Some(messages("global.error.InternalServerError500.title"))) {
- <h1 class="govuk-heading-xl">@messages("global.error.InternalServerError500.heading")</h1>
- <p class="govuk-body">@{messages("global.error.InternalServerError500.p1")}</p>
- <p class="govuk-body">
-  <a
-  class="govuk-link"
-  href="https://www.tax.service.gov.uk/shortforms/form/EORIContact"
-  >@{messages("global.error.InternalServerError500.p2.link")}</a>
-  @{messages("global.error.InternalServerError500.p2.content")}
- </p>
+@layout(pageTitle = Some(messages("global.error.pageNotFound404.title"))) {
+    <h1 class="govuk-heading-xl">@messages("global.error.pageNotFound404.heading")</h1>
+    <p class="govuk-body">@{messages("global.error.pageNotFound404.p1")}</p>
+    <p class="govuk-body">@{messages("global.error.pageNotFound404.p2")}</p>
+    <p class="govuk-body">
+        @{messages("global.error.pageNotFound404.p3.1")}
+        <a
+            class="govuk-link"
+            href="https://www.tax.service.gov.uk/shortforms/form/EORIContact"
+        >@{messages("global.error.pageNotFound404.p3.link")}</a>
+        @{messages("global.error.pageNotFound404.p3.2")}
+    </p>
 }
