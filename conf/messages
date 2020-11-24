@@ -9,25 +9,20 @@ global.error.pageNotFound404.title=Page not found - Check an EORI number - GOV.U
 global.error.pageNotFound404.heading=Page not found
 global.error.pageNotFound404.p1=If you typed the web address, check it is correct.
 global.error.pageNotFound404.p2=If you pasted the web address, check you copied the entire address.
-global.error.pageNotFound404.p3.1=If the web address is correct or you selected a link or button,
-global.error.pageNotFound404.p3.link= contact the EORI team
-global.error.pageNotFound404.p3.2= if you need to check a GB EORI number.
 
 global.error.InternalServerError500.title=Sorry, there is a problem with the service - Check an EORI number - GOV.UK
 global.error.InternalServerError500.heading=Sorry, there is a problem with the service
 global.error.InternalServerError500.p1=Try again later.
-global.error.InternalServerError500.p2.link=Contact the EORI team
-global.error.InternalServerError500.p2.content= if you need to check a GB EORI number.
 
-checkpage.title=What is the GB EORI number you want to check?
-checkpage.hint=For example, GB123456789000
-checkpage.required=Enter the GB EORI number you want to check
-checkpage.format-invalid=Enter the GB EORI number in the correct format
+checkpage.title=What is the EORI number you want to check?
+checkpage.hint= This will start with ‘GB’ followed by 12 numbers, for example GB123456789000
+checkpage.required=Enter the EORI number you want to check
+checkpage.format-invalid=Enter the EORI number in the correct format
 
 error.eori.required=Enter the GB EORI number you want to check
 error.eori.invalid=Enter the GB EORI number in the correct format
 
-result.valid.heading=Valid GB EORI number
+result.valid.heading=Valid EORI number
 result.valid.eori=EORI number
 result.valid.reg-details=EORI registration details
 result.valid.reg-details-not-available=EORI registration details not available
@@ -35,7 +30,7 @@ result.valid.reg-details-not-available.p=For data protection reasons, we cannot 
 result.valid.reg-name=Registered business name
 result.valid.reg-address=Registered business address
 
-result.invalid.heading=Invalid GB EORI number
+result.invalid.heading=Invalid EORI number
 result.invalid.searched-for=You searched for
 result.invalid.searched-for.eori=‘{0}’
 result.invalid.no-match=This does not match the EORI number of any GB EORI-registered business.
