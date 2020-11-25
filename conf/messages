@@ -19,8 +19,8 @@ checkpage.hint= This will start with ‘GB’ followed by 12 numbers, for exampl
 checkpage.required=Enter the EORI number you want to check
 checkpage.format-invalid=Enter the EORI number in the correct format
 
-error.eori.required=Enter the GB EORI number you want to check
-error.eori.invalid=Enter the GB EORI number in the correct format
+error.eori.required=Enter the EORI number you want to check
+error.eori.invalid=Enter the EORI number in the correct format
 
 result.valid.heading=Valid EORI number
 result.valid.eori=EORI number
