@@ -17,12 +17,14 @@
 @import uk.gov.hmrc.checkeorinumberfrontend.config.AppConfig
 @import uk.gov.hmrc.govukfrontend.views.Layouts
 @import uk.gov.hmrc.hmrcfrontend.views.config._
-
+@import uk.gov.hmrc.hmrcfrontend.views.html.helpers.HmrcStandardFooter
 
 @this(
         govukLayout: GovukLayout,
         head: Head,
-        hmrcReportTechnicalIssue: HmrcReportTechnicalIssue
+        hmrcReportTechnicalIssue: HmrcReportTechnicalIssue,
+        hmrcFooter: HmrcFooter,
+        hmrcStandardFooter: HmrcStandardFooter
 )
 @(pageTitle: Option[String] = None,
         headBlock: Option[Html] = None,
@@ -44,5 +46,6 @@
     pageTitle = pageTitle,
     headBlock = Some(head(headBlock)),
     scriptsBlock = scriptsBlock,
+    footerBlock = Some(hmrcStandardFooter()),
     beforeContentBlock = None
 )(content)
