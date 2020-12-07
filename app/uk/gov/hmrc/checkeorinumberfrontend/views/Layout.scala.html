@@ -22,8 +22,7 @@
 @this(
         govukLayout: GovukLayout,
         head: Head,
-        hmrcReportTechnicalIssue: HmrcReportTechnicalIssue,
-        hmrcFooterItems: HmrcFooterItems
+        hmrcReportTechnicalIssue: HmrcReportTechnicalIssue
 )
 @(pageTitle: Option[String] = None,
         headBlock: Option[Html] = None,
@@ -33,7 +32,11 @@
 @content = {
     @contentBlock
     @hmrcReportTechnicalIssue(
-        ReportTechnicalIssue(appConfig.serviceName, Some(messages.lang.language))
+        ReportTechnicalIssue(
+            appConfig.serviceName,
+            if (messages.lang.code == "cy") Cy else En
+            )
+        )
     )
 }
 
@@ -41,6 +44,5 @@
     pageTitle = pageTitle,
     headBlock = Some(head(headBlock)),
     scriptsBlock = scriptsBlock,
-    beforeContentBlock = None,
-    footerItems = hmrcFooterItems.get
+    beforeContentBlock = None
 )(content)
