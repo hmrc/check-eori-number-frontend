@@ -7,6 +7,7 @@ GET        /                              uk.gov.hmrc.checkeorinumberfrontend.co
 GET        /cymraeg                       uk.gov.hmrc.checkeorinumberfrontend.controllers.CheckEoriNumberController.cymraeg
 GET        /enter-number                  uk.gov.hmrc.checkeorinumberfrontend.controllers.CheckEoriNumberController.checkForm()
 POST       /result                        uk.gov.hmrc.checkeorinumberfrontend.controllers.CheckEoriNumberController.result()
+GET        /result                        uk.gov.hmrc.checkeorinumberfrontend.controllers.CheckEoriNumberController.checkForm()
 
 GET        /feedback                      uk.gov.hmrc.checkeorinumberfrontend.controllers.ExitSurveyController.exitSurvey
 
