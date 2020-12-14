@@ -1,3 +1,9 @@
+
+common.alpha-info.p1=This is a new service – your
+common.alpha-info.link=feedback
+common.alpha-info.p2= will help us to improve it.
+
+
 service.name=Check an EORI number
 service.homePageUrl=/check-eori-number
 gov.uk.page-title={0} - Check an EORI Number - GOV.UK
@@ -46,6 +52,19 @@ result.print=Print or save this page
 result.search-again=Search again
 result.exit-survey.link=What did you think of this service?
 result.exit-survey.content=(takes 30 seconds)
+result.at=at
+result.month.1=January
+result.month.2=February
+result.month.3=March
+result.month.4=April
+result.month.5=May
+result.month.6=June
+result.month.7=July
+result.month.8=August
+result.month.9=September
+result.month.10=October
+result.month.11=November
+result.month.12=December
 
 footer.cookies.text = Cookies
 footer.cookies.url = /help/cookies

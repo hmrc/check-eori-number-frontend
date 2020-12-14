@@ -24,7 +24,8 @@
         head: Head,
         hmrcReportTechnicalIssue: HmrcReportTechnicalIssue,
         hmrcFooter: HmrcFooter,
-        hmrcStandardFooter: HmrcStandardFooter
+        hmrcStandardFooter: HmrcStandardFooter,
+        beforeContent: BeforeContent
 )
 @(pageTitle: Option[String] = None,
         headBlock: Option[Html] = None,
@@ -46,5 +47,5 @@
     headBlock = Some(head(headBlock)),
     scriptsBlock = scriptsBlock,
     footerBlock = Some(hmrcStandardFooter()),
-    beforeContentBlock = None
+    beforeContentBlock = Some(beforeContent())
 )(content)
