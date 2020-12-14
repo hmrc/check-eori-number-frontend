@@ -28,8 +28,8 @@ import uk.gov.hmrc.checkeorinumberfrontend.controllers.routes
 @Singleton
 class AppConfig @Inject()(config: Configuration, servicesConfig: ServicesConfig) {
 
-  private val contactHost: String = servicesConfig.getConfString(s"contact-frontend.host", "")
   private val encoding: String = "UTF-8"
+  val contactHost: String = servicesConfig.baseUrl(s"contact-frontend")
 
   lazy val serviceName: String = config.get[String]("serviceName")
   lazy val appAcronym: String = config.get[String]("appAcronym")
@@ -51,5 +51,6 @@ class AppConfig @Inject()(config: Configuration, servicesConfig: ServicesConfig)
 
   lazy val languageTranslationEnabled: Boolean =
     config.getBoolean("microservice.services.features.welsh-translation").getOrElse(true)
+  lazy val betaFeedbackUrlNoAuth = s"$contactHost/contact/beta-feedback-unauthenticated?service=CHEN"
 
 }
