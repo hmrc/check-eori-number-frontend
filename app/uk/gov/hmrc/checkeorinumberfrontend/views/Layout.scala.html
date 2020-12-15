@@ -24,7 +24,8 @@
         head: Head,
         hmrcReportTechnicalIssue: HmrcReportTechnicalIssue,
         hmrcFooter: HmrcFooter,
-        hmrcStandardFooter: HmrcStandardFooter
+        hmrcStandardFooter: HmrcStandardFooter,
+        beforeContent: BeforeContent
 )
 @(pageTitle: Option[String] = None,
         headBlock: Option[Html] = None,
@@ -36,7 +37,10 @@
     @hmrcReportTechnicalIssue(
         ReportTechnicalIssue(
             appConfig.serviceName,
-            if (messages.lang.code == "cy") Cy else En
+            if (messages.lang.code == "cy") Cy else En,
+            None,
+            None,
+            Some(appConfig.contactHost)
         )
     )
 }
@@ -46,5 +50,5 @@
     headBlock = Some(head(headBlock)),
     scriptsBlock = scriptsBlock,
     footerBlock = Some(hmrcStandardFooter()),
-    beforeContentBlock = None
+    beforeContentBlock = Some(beforeContent())
 )(content)

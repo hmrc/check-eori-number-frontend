@@ -23,10 +23,12 @@
 
 @date_time_format(time: ProcessingDate) =  @{
     val rules = ZoneRulesProvider.getRules("Europe/London", true)
+    val prepostion = messages("result.at")
+    val month = messages(s"result.month.${time.getMonthValue}")
     if (rules.isDaylightSavings(time.toInstant)) {
-        to_lower_am_pm(time.format(DateTimeFormatter.ofPattern("d MMMM YYYY 'at' h:mm a 'BST'")))
+        to_lower_am_pm(time.format(DateTimeFormatter.ofPattern(s"d '$month' YYYY '$prepostion' h:mm a 'BST'")))
     } else {
-        to_lower_am_pm(time.format(DateTimeFormatter.ofPattern("d MMMM YYYY 'at' h:mm a O")))
+        to_lower_am_pm(time.format(DateTimeFormatter.ofPattern(s"d '$month' YYYY '$prepostion' h:mm a O")))
     }
 }
 @to_lower_am_pm(time: String) = @{
