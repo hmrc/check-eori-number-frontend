@@ -18,7 +18,8 @@ package uk.gov.hmrc.checkeorinumberfrontend.connectors
 
 import javax.inject.Inject
 import play.api.{Configuration, Environment}
-import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
+import play.api.http.Status.NOT_FOUND
+import uk.gov.hmrc.http.{HeaderCarrier, HttpClient, UpstreamErrorResponse}
 import uk.gov.hmrc.http.HttpReads.Implicits._
 import uk.gov.hmrc.checkeorinumberfrontend.config.AppConfig
 import uk.gov.hmrc.checkeorinumberfrontend.models._
@@ -46,13 +47,14 @@ class CheckEoriNumberConnectorImpl @Inject()(
   )(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[List[CheckResponse]]] = {
     http.GET[List[CheckResponse]](
       url = s"${appConfig.eisUrl}/check-eori/${checkSingleEoriNumberRequest.eoriNumber}").map(Some(_)
-    )
+    ).recoverWith{
+      case e: UpstreamErrorResponse if e.statusCode == NOT_FOUND => {
+        Future.successful(
+          Some(
+            List(CheckResponse(checkSingleEoriNumberRequest.eoriNumber, valid = false, None))
+          )
+        )
+      }
+    }
   }
-
-  //TODO strip out and only use multiple endpoint on api
-//  def checkMultiple(
-//    check: CheckMultipleEoriNumbersRequest
-//  )(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[CheckResponse]] = {
-//    http.POST[CheckMultipleEoriNumbersRequest, CheckResponse](s"${appConfig.eisUrl}/check-eori}", check).map(Some(_))
-//  }
 }
