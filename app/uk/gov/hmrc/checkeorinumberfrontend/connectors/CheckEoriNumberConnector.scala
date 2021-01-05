@@ -47,14 +47,13 @@ class CheckEoriNumberConnectorImpl @Inject()(
   )(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[List[CheckResponse]]] = {
     http.GET[List[CheckResponse]](
       url = s"${appConfig.eisUrl}/check-eori/${checkSingleEoriNumberRequest.eoriNumber}").map(Some(_)
-    ).recoverWith{
-      case e: UpstreamErrorResponse if e.statusCode == NOT_FOUND => {
+    ).recoverWith {
+      case e: UpstreamErrorResponse if e.statusCode == NOT_FOUND =>
         Future.successful(
           Some(
             List(CheckResponse(checkSingleEoriNumberRequest.eoriNumber, valid = false, None))
           )
         )
-      }
     }
   }
 }
