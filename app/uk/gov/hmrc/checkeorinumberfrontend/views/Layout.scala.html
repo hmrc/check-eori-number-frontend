@@ -22,6 +22,7 @@
 @this(
         govukLayout: GovukLayout,
         head: Head,
+        scripts: Scripts,
         hmrcReportTechnicalIssue: HmrcReportTechnicalIssue,
         hmrcFooter: HmrcFooter,
         hmrcStandardFooter: HmrcStandardFooter,
@@ -50,5 +51,6 @@
     headBlock = Some(head(headBlock)),
     scriptsBlock = scriptsBlock,
     footerBlock = Some(hmrcStandardFooter()),
-    beforeContentBlock = Some(beforeContent())
+    beforeContentBlock = Some(beforeContent()),
+    bodyEndBlock = Some(scripts())
 )(content)
