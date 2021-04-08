@@ -21,7 +21,7 @@ global.error.InternalServerError500.heading=Mae’n ddrwg gennym, mae problem gy
 global.error.InternalServerError500.p1=Rhowch gynnig arall arni yn nes ymlaen.
 
 checkpage.title=Beth yw’r rhif EORI yr hoffech ei wirio?
-checkpage.hint=Bydd hwn yn dechrau gyda ‘GB’ wedi’i ddilyn gan 12 rhif, er enghraifft GB123456789000.
+checkpage.hint=Bydd hwn yn dechrau gyda ‘GB’, wedi’i ddilyn gan 12 neu 15 rhif, er enghraifft GB123456789000.
 checkpage.required=Nodwch y rhif EORI yr hoffech ei wirio
 checkpage.format-invalid=Nodwch y rhif EORI yn y fformat cywir
 
@@ -31,7 +31,7 @@ error.eori.invalid=Nodwch y rhif EORI yn y fformat cywir
 result.valid.heading=Rhif EORI dilys
 result.valid.reg-details=Manylion gofrestru EORI
 result.valid.reg-details-not-available=Manylion gofrestru EORI ddim ar gael
-result.valid.reg-details-not-available.p1=Ni chydsyniodd y busnes y mae’r rhif hwn wedi’i gofrestru iddo rannu eu henw a’u cyfeiriad, felly ni allwn ei ddangos yma.
+result.valid.reg-details-not-available.p1=Nid yw’r busnes y mae’r rhif hwn wedi’i gofrestru iddo wedi caniatáu i’w enw a’i gyfeiriad gael eu rhannu.
 result.valid.reg-details-not-available.p2=Os oes angen mwy o wybodaeth arnoch, cysylltwch â’r busnes yn uniongyrchol.
 result.valid.reg-name=Enw’r busnes cofrestredig
 result.valid.reg-address=Cyfeiriad y busnes cofrestredig

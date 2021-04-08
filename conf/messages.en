@@ -21,7 +21,7 @@ global.error.InternalServerError500.heading=Sorry, there is a problem with the s
 global.error.InternalServerError500.p1=Try again later.
 
 checkpage.title=What is the EORI number you want to check?
-checkpage.hint=This will start with ‘GB’ followed by 12 numbers, for example GB123456789000.
+checkpage.hint=This will start with ‘GB’ followed by 12 or 15 numbers, for example GB123456789000.
 checkpage.required=Enter the EORI number you want to check
 checkpage.format-invalid=Enter the EORI number in the correct format
 
@@ -31,7 +31,7 @@ error.eori.invalid=Enter the EORI number in the correct format
 result.valid.heading=Valid EORI number
 result.valid.reg-details=EORI registration details
 result.valid.reg-details-not-available=EORI registration details not available
-result.valid.reg-details-not-available.p1=The business this number is registered to has not consented to their name and address being shared, so we cannot show it here.
+result.valid.reg-details-not-available.p1=The business this number is registered to has not consented to their name and address being shared.
 result.valid.reg-details-not-available.p2=If you need more information, contact the business directly.
 result.valid.reg-name=Registered business name
 result.valid.reg-address=Registered business address
