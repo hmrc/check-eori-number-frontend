@@ -29,7 +29,6 @@ error.eori.required=Nodwch y rhif EORI yr hoffech ei wirio
 error.eori.invalid=Nodwch y rhif EORI yn y fformat cywir
 
 result.valid.heading=Rhif EORI dilys
-result.valid.eori=Rhif EORI
 result.valid.reg-details=Manylion gofrestru EORI
 result.valid.reg-details-not-available=Manylion gofrestru EORI ddim ar gael
 result.valid.reg-details-not-available.p1=Nid yw’r busnes y mae’r rhif hwn wedi’i gofrestru iddo wedi caniatáu i’w enw a’i gyfeiriad gael eu rhannu.
@@ -48,7 +47,7 @@ result.xi.searched-for.eori=‘{0}’
 result.xi.europa.content=I wirio rhif EORI sy’n dechrau gyda XI, defnyddiwch y
 result.xi.europa.link=gwasanaeth gwirio EORI ar wefan y Comisiwn Ewropeaidd (yn agor tab newydd)
 
-result.processing-date=Cwblhawyd y chwiliad {0}
+result.processing-date=Cwblhawyd y chwiliad {0}.
 result.print=Argraffu neu gadw’r dudalen hon
 result.search-again=Chwilio eto
 result.exit-survey.link=Beth oedd eich barn am y gwasanaeth hwn? (mae’n cymryd 30 eiliad)

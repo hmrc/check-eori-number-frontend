@@ -15,6 +15,7 @@
  *@
 
 @import uk.gov.hmrc.checkeorinumberfrontend.models.ProcessingDate
+@import java.time.ZonedDateTime
 
 @import java.time.format.DateTimeFormatter
 @import java.time.zone.ZoneRulesProvider
@@ -26,13 +27,13 @@
     val prepostion = messages("result.at")
     val month = messages(s"result.month.${time.getMonthValue}")
     if (rules.isDaylightSavings(time.toInstant)) {
-        to_lower_am_pm(time.format(DateTimeFormatter.ofPattern(s"d '$month' YYYY '$prepostion' h:mm a 'BST'")))
+        to_lower_am_pm(time.format(DateTimeFormatter.ofPattern(s"d '$month' YYYY '$prepostion' h:mma '(BST)'")))
     } else {
-        to_lower_am_pm(time.format(DateTimeFormatter.ofPattern(s"d '$month' YYYY '$prepostion' h:mm a O")))
+        to_lower_am_pm(time.format(DateTimeFormatter.ofPattern(s"d '$month' YYYY '$prepostion' h:mma '(O)'")))
     }
 }
 @to_lower_am_pm(time: String) = @{
-    "(.*)( {1}[A,P]{1}M{1} {1})(.*)".r.replaceAllIn(time, x => s"${x.group(1)}${x.group(2).toLowerCase}${x.group(3)}")
+    "(.*)([A,P]{1}M{1} {1})(.*)".r.replaceAllIn(time, x => s"${x.group(1)}${x.group(2).toLowerCase}${x.group(3)}")
 }
 
 <p class="govuk-body">@messages("result.processing-date", date_time_format(processingDate))</p>
