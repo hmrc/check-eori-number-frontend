@@ -47,7 +47,7 @@ result.xi.searched-for.eori=‘{0}’
 result.xi.europa.content=To check an EORI number that starts with XI, use the
 result.xi.europa.link=EORI checker service on the European Commission website (opens in new tab)
 
-result.processing-date=Search completed on {0}
+result.processing-date=Search completed on {0}.
 result.print=Print or save this page
 result.search-again=Search again
 result.exit-survey.link=What did you think of this service?
