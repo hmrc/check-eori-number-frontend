@@ -29,7 +29,6 @@ error.eori.required=Nodwch y rhif EORI yr hoffech ei wirio
 error.eori.invalid=Nodwch y rhif EORI yn y fformat cywir
 
 result.valid.heading=Rhif EORI dilys
-result.valid.eori=Rhif EORI
 result.valid.reg-details=Manylion gofrestru EORI
 result.valid.reg-details-not-available=Manylion gofrestru EORI ddim ar gael
 result.valid.reg-details-not-available.p1=Ni chydsyniodd y busnes y mae’r rhif hwn wedi’i gofrestru iddo rannu eu henw a’u cyfeiriad, felly ni allwn ei ddangos yma.
