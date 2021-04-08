@@ -21,7 +21,7 @@ global.error.InternalServerError500.heading=Sorry, there is a problem with the s
 global.error.InternalServerError500.p1=Try again later.
 
 checkpage.title=What is the EORI number you want to check?
-checkpage.hint= This will start with ‘GB’ followed by 12 numbers, for example GB123456789000
+checkpage.hint=This will start with ‘GB’ followed by 12 or 15 numbers, for example GB123456789000.
 checkpage.required=Enter the EORI number you want to check
 checkpage.format-invalid=Enter the EORI number in the correct format
 
