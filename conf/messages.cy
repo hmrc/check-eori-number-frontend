@@ -21,7 +21,7 @@ global.error.InternalServerError500.heading=Mae’n ddrwg gennym, mae problem gy
 global.error.InternalServerError500.p1=Rhowch gynnig arall arni yn nes ymlaen.
 
 checkpage.title=Beth yw’r rhif EORI yr hoffech ei wirio?
-checkpage.hint= Bydd hwn yn dechrau gyda ‘GB’ wedi’i ddilyn gan 12 rhif, er enghraifft GB123456789000
+checkpage.hint=Bydd hwn yn dechrau gyda ‘GB’ wedi’i ddilyn gan 12 rhif, er enghraifft GB123456789000.
 checkpage.required=Nodwch y rhif EORI yr hoffech ei wirio
 checkpage.format-invalid=Nodwch y rhif EORI yn y fformat cywir
 
