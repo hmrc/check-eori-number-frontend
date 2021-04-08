@@ -37,7 +37,7 @@ class CheckEoriNumberControllerSpec extends BaseSpec {
   val invalidEoriResponsePage: InvalidEoriResponsePage = app.injector.instanceOf[InvalidEoriResponsePage]
   val xiEoriResponsePage: XIEoriResponsePage = app.injector.instanceOf[XIEoriResponsePage]
   val eoriNumber: EoriNumber = "GB123456787665"
-  val xiEoriNumber: EoriNumber = "XI12345678912345"
+  val xiEoriNumber: EoriNumber = "XI123456789123456"
 
   val controller = new CheckEoriNumberController(
     mcc,

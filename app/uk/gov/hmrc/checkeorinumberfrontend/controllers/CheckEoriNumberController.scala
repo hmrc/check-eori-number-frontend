@@ -59,7 +59,7 @@ class CheckEoriNumberController @Inject()(
     form.bindFromRequest().fold(
       errors => Future(BadRequest(checkPage(errors))),
       check => connector.check(check).flatMap {
-        case Some(head::_) if head.eori.matches("XI[0-9]{12,15}$") =>
+        case Some(head::_) if head.eori.matches("XI[0-9]{12}|XI[0-9]{15}$") =>
           Future.successful(Ok(xiEoriResponsePage(head)))
         case Some(head::_) if head.valid =>
           Future.successful(Ok(validEoriResponsePage(head)))
@@ -74,7 +74,7 @@ class CheckEoriNumberController @Inject()(
 
   object CheckEoriNumberController {
 
-    private val eoriRegex: String = "^(GB|XI)[0-9]{12,15}$"
+    private val eoriRegex: String = "^(GB|XI)[0-9]{12}|(GB|XI)[0-9]{15}$"
 
     val form: Form[CheckSingleEoriNumberRequest] = Form(
       mapping(
