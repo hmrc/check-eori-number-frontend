@@ -25,6 +25,7 @@ checkpage.hint=This will start with ‘GB’ followed by 12 or 15 numbers, for e
 checkpage.required=Enter the EORI number you want to check
 checkpage.format-invalid=Enter the EORI number in the correct format
 
+error.problem.title=There is a problem
 error.eori.required=Enter the EORI number you want to check
 error.eori.invalid=Enter the EORI number in the correct format
 
