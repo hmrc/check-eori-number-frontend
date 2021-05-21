@@ -38,8 +38,8 @@
     @hmrcReportTechnicalIssue(
         ReportTechnicalIssue(
             appConfig.serviceName,
+            appConfig.appAcronym,
             if (messages.lang.code == "cy") Cy else En,
-            None,
             None,
             Some(appConfig.contactHost)
         )
