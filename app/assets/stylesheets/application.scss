@@ -5,3 +5,8 @@ $hmrc-assets-path: "/check-eori-number/assets/lib/hmrc-frontend/hmrc/";
 @import "lib/hmrc-frontend/hmrc/all";
 
 @import "language-selection";
+
+.app-reference-number {
+  display: block;
+  font-weight: bold;
+}
