@@ -28,7 +28,7 @@ class CustomLanguageSwitchController @Inject()(
   val appConfig: AppConfig,
   languageUtils: LanguageUtils,
   controllerComponents: ControllerComponents
-) extends LanguageController(configuration, languageUtils, controllerComponents) with I18nSupport {
+) extends LanguageController(languageUtils, controllerComponents) with I18nSupport {
 
   def fallbackURL: String = routes.CheckEoriNumberController.checkForm().url
 
