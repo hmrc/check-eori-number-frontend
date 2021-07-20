@@ -50,7 +50,8 @@ class AppConfig @Inject()(config: Configuration, servicesConfig: ServicesConfig)
   def routeToSwitchLanguage: String => Call = (lang: String) => routes.CustomLanguageSwitchController.switchToLanguage(lang)
 
   lazy val languageTranslationEnabled: Boolean =
-    config.getBoolean("microservice.services.features.welsh-translation").getOrElse(true)
+    config.get[Boolean]("microservice.services.features.welsh-translation")
+
   lazy val betaFeedbackUrlNoAuth = s"$contactHost/contact/beta-feedback-unauthenticated?service=CHEN"
 
 }
