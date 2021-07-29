@@ -35,13 +35,7 @@ Getting started with Check EORI number Frontend
  3. You can view the first page of the service in a browser using http://localhost:8350/check-eori-number/enter-number
  
  4. Enter a [EORI] number to check if it is valid or not
-
- 5. In a stubbed environment the last digit of each [EORI] Number will return each type of CheckResponse:
-     * 0 or 1 Vaild with no TraderName or Address
-     * 2 to 5 Vaild with TraderName and Address
-     * 6      Vaild with TraderName but no Address
-     * 7      Vaild with Address but no TraderName
-     * 8 or 9 Invalid
+ 5. In a stubbed environment each [EORI] will exhibit different behavior [Please see here for details](https://github.com/hmrc/check-eori-number-stub/#readme)
 
 Acronyms
 ---
