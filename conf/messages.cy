@@ -1,8 +1,4 @@
 
-common.alpha-info.p1=Gwasanaeth newydd yw hwn – bydd eich
-common.alpha-info.link=adborth
-common.alpha-info.p2= yn ein helpu i’w wella.
-
 
 service.name=Gwiriwch rif EORI
 service.homePageUrl=/check-eori-number
