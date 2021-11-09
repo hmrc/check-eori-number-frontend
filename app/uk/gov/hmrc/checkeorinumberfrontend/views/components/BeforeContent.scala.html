@@ -14,13 +14,10 @@
  * limitations under the License.
  *@
 
-@this(
-    govBetaBanner: GovBetaBanner
-)
+@this()
 
 @()(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
-@govBetaBanner("BETA")
 
 @if(appConfig.languageTranslationEnabled) {
     @language_selection(

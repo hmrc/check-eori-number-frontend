@@ -1,9 +1,4 @@
 
-common.alpha-info.p1=This is a new service – your
-common.alpha-info.link=feedback
-common.alpha-info.p2= will help us to improve it.
-
-
 service.name=Check an EORI number
 service.homePageUrl=/check-eori-number
 gov.uk.page-title={0} - Check an EORI Number - GOV.UK
