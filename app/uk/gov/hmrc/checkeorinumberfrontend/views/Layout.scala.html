@@ -14,43 +14,17 @@
  * limitations under the License.
  *@
 
+@import uk.gov.hmrc.hmrcfrontend.views.html.helpers.HmrcLayout
+@import uk.gov.hmrc.hmrcfrontend.views.config.StandardBetaBanner
+@import views.html.helper.CSPNonce
 @import uk.gov.hmrc.checkeorinumberfrontend.config.AppConfig
-@import uk.gov.hmrc.govukfrontend.views.Layouts
-@import uk.gov.hmrc.hmrcfrontend.views.config._
-@import uk.gov.hmrc.hmrcfrontend.views.html.helpers.HmrcStandardFooter
 
-@this(
-        govukLayout: GovukLayout,
-        head: Head,
-        scripts: Scripts,
-        hmrcReportTechnicalIssue: HmrcReportTechnicalIssue,
-        hmrcFooter: HmrcFooter,
-        hmrcStandardFooter: HmrcStandardFooter,
-        beforeContent: BeforeContent
-)
-@(pageTitle: Option[String] = None,
-        headBlock: Option[Html] = None,
-        scriptsBlock: Option[Html] = None
-)(contentBlock: Html)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+@this(hmrcLayout: HmrcLayout, standardBetaBanner: StandardBetaBanner, appConfig: AppConfig)
 
-@content = {
-    @contentBlock
-    @hmrcReportTechnicalIssue(
-        ReportTechnicalIssue(
-            appConfig.serviceName,
-            appConfig.appAcronym,
-            if (messages.lang.code == "cy") Cy else En,
-            None,
-            Some(appConfig.contactHost)
-        )
-    )
-}
+@(pageTitle: String)(contentBlock: Html)(implicit request: RequestHeader, messages: Messages)
 
-@govukLayout(
-    pageTitle = pageTitle,
-    headBlock = Some(head(headBlock)),
-    scriptsBlock = scriptsBlock,
-    footerBlock = Some(hmrcStandardFooter()),
-    beforeContentBlock = Some(beforeContent()),
-    bodyEndBlock = Some(scripts())
-)(content)
+@hmrcLayout(
+    pageTitle = Some(pageTitle),
+    isWelshTranslationAvailable = appConfig.languageTranslationEnabled,
+    nonce = CSPNonce.get,
+)(contentBlock)

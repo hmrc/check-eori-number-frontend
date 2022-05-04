@@ -19,7 +19,7 @@
 
 @this(hmrcTrackingConsentSnippet: HmrcTrackingConsentSnippet)
 
-@(headBlock: Option[Html] = None)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+@(headBlock: Option[Html] = None)(implicit request: Request[_], messages: Messages)
 @headBlock
 @hmrcTrackingConsentSnippet(nonce = CSPNonce.get)
 <!--[if lte IE 8]><script src='@controllers.routes.Assets.versioned("javascripts/html5shiv.min.js")'></script><![endif]-->
