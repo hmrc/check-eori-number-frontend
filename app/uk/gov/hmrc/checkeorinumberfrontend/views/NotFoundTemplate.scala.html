@@ -1,5 +1,5 @@
 @*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,12 +14,10 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.checkeorinumberfrontend.config.AppConfig
-
 @this(layout: Layout)
 
-@()(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
-@layout(pageTitle = Some(messages("global.error.pageNotFound404.title"))) {
+@()(implicit request: Request[_], messages: Messages)
+@layout(pageTitle = (messages("global.error.pageNotFound404.title"))) {
     <h1 class="govuk-heading-xl">@messages("global.error.pageNotFound404.heading")</h1>
     <p class="govuk-body">@{messages("global.error.pageNotFound404.p1")}</p>
     <p class="govuk-body">@{messages("global.error.pageNotFound404.p2")}</p>
