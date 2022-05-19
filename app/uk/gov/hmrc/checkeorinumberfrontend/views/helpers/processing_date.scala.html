@@ -29,7 +29,7 @@
     if (rules.isDaylightSavings(time.toInstant)) {
         to_lower_am_pm(time.format(DateTimeFormatter.ofPattern(s"d '$month' YYYY '$prepostion' h:mma '(BST)'")))
     } else {
-        to_lower_am_pm(time.format(DateTimeFormatter.ofPattern(s"d '$month' YYYY '$prepostion' h:mma '(O)'")))
+        to_lower_am_pm(time.format(DateTimeFormatter.ofPattern(s"d '$month' YYYY '$prepostion' h:mma '(GMT)'")))
     }
 }
 @to_lower_am_pm(time: String) = @{
