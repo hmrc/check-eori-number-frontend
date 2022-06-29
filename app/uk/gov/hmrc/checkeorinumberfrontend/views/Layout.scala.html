@@ -18,13 +18,20 @@
 @import uk.gov.hmrc.hmrcfrontend.views.config.StandardBetaBanner
 @import views.html.helper.CSPNonce
 @import uk.gov.hmrc.checkeorinumberfrontend.config.AppConfig
+@import uk.gov.hmrc.hmrcfrontend.views.html.helpers.HmrcReportTechnicalIssueHelper
 
-@this(hmrcLayout: HmrcLayout, standardBetaBanner: StandardBetaBanner, appConfig: AppConfig)
+
+@this(hmrcLayout: HmrcLayout, standardBetaBanner: StandardBetaBanner, appConfig: AppConfig, hmrcReportTechnicalIssueHelper: HmrcReportTechnicalIssueHelper)
 
 @(pageTitle: String)(contentBlock: Html)(implicit request: RequestHeader, messages: Messages)
+
+@content = {
+  @contentBlock
+  @hmrcReportTechnicalIssueHelper()
+}
 
 @hmrcLayout(
     pageTitle = Some(pageTitle),
     isWelshTranslationAvailable = appConfig.languageTranslationEnabled,
     nonce = CSPNonce.get,
-)(contentBlock)
+)(content)
