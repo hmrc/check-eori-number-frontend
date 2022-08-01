@@ -41,7 +41,7 @@ class CheckEoriNumberController @Inject()(
 
   import CheckEoriNumberController.form
 
-  def cymraeg: Action[AnyContent] = Action.async { implicit request =>
+  def cymraeg: Action[AnyContent] = Action.async { implicit _ =>
     Future.successful(
       Redirect(
         routes.CheckEoriNumberController.checkForm()
