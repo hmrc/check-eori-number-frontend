@@ -19,16 +19,14 @@ package uk.gov.hmrc.checkeorinumberfrontend.controllers
 import play.api.http.Status
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import uk.gov.hmrc.checkeorinumberfrontend.models.{EoriNumber, CheckResponse}
-import uk.gov.hmrc.checkeorinumberfrontend.models.internal.CheckSingleEoriNumberRequest
-import uk.gov.hmrc.checkeorinumberfrontend.views.html.templates._
-import uk.gov.hmrc.checkeorinumberfrontend.utils.BaseSpec
 import uk.gov.hmrc.checkeorinumberfrontend.connectors.CheckEoriNumberConnector
-import uk.gov.hmrc.checkeorinumberfrontend.models.{EoriNumber, CheckResponse}
 import uk.gov.hmrc.checkeorinumberfrontend.models.internal.CheckSingleEoriNumberRequest
+import uk.gov.hmrc.checkeorinumberfrontend.models.{CheckResponse, EoriNumber}
+import uk.gov.hmrc.checkeorinumberfrontend.utils.BaseSpec
+import uk.gov.hmrc.checkeorinumberfrontend.views.html.templates.{CheckPage, InvalidEoriResponsePage, ValidEoriResponsePage, XIEoriResponsePage}
 import uk.gov.hmrc.http.HeaderCarrier
 
-import scala.concurrent.{Future, ExecutionContext}
+import scala.concurrent.{ExecutionContext, Future}
 
 class CheckEoriNumberControllerSpec extends BaseSpec {
 
