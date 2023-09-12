@@ -32,6 +32,5 @@
 
 @hmrcLayout(
     pageTitle = Some(pageTitle),
-    isWelshTranslationAvailable = appConfig.languageTranslationEnabled,
-    nonce = CSPNonce.get,
+    isWelshTranslationAvailable = appConfig.languageTranslationEnabled
 )(content)
