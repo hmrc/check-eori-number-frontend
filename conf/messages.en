@@ -14,6 +14,7 @@ global.error.pageNotFound404.p2=If you pasted the web address, check you copied 
 global.error.InternalServerError500.title=Sorry, there is a problem with the service - Check an EORI number - GOV.UK
 global.error.InternalServerError500.heading=Sorry, there is a problem with the service
 global.error.InternalServerError500.p1=Try again later.
+global.error.prefix=Error
 
 checkpage.title=What is the EORI number you want to check?
 checkpage.hint=This will start with ‘GB’ followed by 12 or 15 numbers, for example GB123456789000.
