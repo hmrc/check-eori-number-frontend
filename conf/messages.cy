@@ -15,6 +15,7 @@ global.error.pageNotFound404.p2=Os gwnaethoch ludo’r cyfeiriad gwe, gwiriwch e
 global.error.InternalServerError500.title=Mae’n ddrwg gennym, mae problem gyda’r gwasanaeth - Gwiriwch rif EORI - GOV.UK
 global.error.InternalServerError500.heading=Mae’n ddrwg gennym, mae problem gyda’r gwasanaeth.
 global.error.InternalServerError500.p1=Rhowch gynnig arall arni yn nes ymlaen.
+global.error.prefix=Gwall
 
 checkpage.title=Beth yw’r rhif EORI yr hoffech ei wirio?
 checkpage.hint=Bydd hwn yn dechrau gyda ‘GB’, wedi’i ddilyn gan 12 neu 15 rhif, er enghraifft GB123456789000.
