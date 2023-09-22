@@ -5,12 +5,12 @@ service.text=This is your new service
 continue.button=Continue
 full.stop=.
 
-global.error.pageNotFound404.title=Page not found - Check an EORI number - GOV.UK
+global.error.pageNotFound404.title=Page not found
 global.error.pageNotFound404.heading=Page not found
 global.error.pageNotFound404.p1=If you typed the web address, check it is correct.
 global.error.pageNotFound404.p2=If you pasted the web address, check you copied the entire address.
 
-global.error.InternalServerError500.title=Sorry, there is a problem with the service - Check an EORI number - GOV.UK
+global.error.InternalServerError500.title=Sorry, there is a problem with the service
 global.error.InternalServerError500.heading=Sorry, there is a problem with the service
 global.error.InternalServerError500.p1=Try again later.
 global.error.prefix=Error
