@@ -22,14 +22,16 @@
 
 @this(hmrcLayout: HmrcLayout, standardBetaBanner: StandardBetaBanner, appConfig: AppConfig, hmrcReportTechnicalIssueHelper: HmrcReportTechnicalIssueHelper)
 
-@(pageTitle: String)(contentBlock: Html)(implicit request: RequestHeader, messages: Messages)
+@(pageTitle: String, hasErrors: Boolean = false)(contentBlock: Html)(implicit request: RequestHeader, messages: Messages)
 
 @content = {
   @contentBlock
   @hmrcReportTechnicalIssueHelper()
 }
+@errorPrefix = @{s"${messages("global.error.prefix")}: "}
+@gdsTitle = @{s"${if(hasErrors){ errorPrefix } else ""}$pageTitle - ${messages("service.name")} - GOV.UK"}
 
 @hmrcLayout(
-    pageTitle = Some(pageTitle),
+    pageTitle = Some(gdsTitle),
     isWelshTranslationAvailable = appConfig.languageTranslationEnabled
 )(content)

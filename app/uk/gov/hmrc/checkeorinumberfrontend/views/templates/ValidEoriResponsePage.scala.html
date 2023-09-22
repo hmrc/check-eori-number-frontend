@@ -20,8 +20,7 @@
 
 @(checkResponse: CheckResponse)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
-@layout(pageTitle =
-        (messages("gov.uk.page-title", messages("result.valid.heading")))) {
+@layout(pageTitle = messages("result.valid.heading")) {
         <div class="govuk-panel govuk-panel--confirmation">
               <h1 class="govuk-panel__title">
                 @messages("result.valid.heading")
