@@ -2,7 +2,6 @@
 
 service.name=Gwiriwch rif EORI
 service.homePageUrl=/check-eori-number
-gov.uk.page-title={0} - Gwiriwch rif EORI - GOV.UK
 service.text=This is your new service
 continue.button=Yn eich blaen
 full.stop=.

@@ -20,8 +20,7 @@
 
 @(checkResponse: CheckResponse)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
-@layout(pageTitle =
-        (messages("gov.uk.page-title", messages("result.invalid.heading")))) {
+@layout(pageTitle = messages("result.invalid.heading")) {
     <h1 class="govuk-heading-xl">@messages("result.invalid.heading")</h1>
     <p class="govuk-body-l">@messages("result.invalid.searched-for")
         <span class="govuk-!-font-weight-bold">@messages("result.invalid.searched-for.eori", checkResponse.eori)</span>@messages("full.stop")</p>

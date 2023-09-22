@@ -1,7 +1,6 @@
 
 service.name=Check an EORI number
 service.homePageUrl=/check-eori-number
-gov.uk.page-title={0} - Check an EORI Number - GOV.UK
 service.text=This is your new service
 continue.button=Continue
 full.stop=.
