@@ -28,9 +28,7 @@ class ErrorHandler @Inject()(
   errorTemplate: ErrorTemplate,
   notFoundTemplate: NotFoundTemplate,
   val messagesApi: MessagesApi
-)(
-  implicit appConfig: AppConfig
-) extends FrontendErrorHandler {
+)() extends FrontendErrorHandler {
 
   override def standardErrorTemplate(
     pageTitle: String,

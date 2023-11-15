@@ -16,42 +16,22 @@
 
 package uk.gov.hmrc.checkeorinumberfrontend.config
 
-import java.net.URLEncoder.encode
-
 import javax.inject.{Inject, Singleton}
 import play.api.Configuration
 import play.api.i18n.Lang
-import play.api.mvc.Call
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
-import uk.gov.hmrc.checkeorinumberfrontend.controllers.routes
 
 @Singleton
 class AppConfig @Inject()(config: Configuration, servicesConfig: ServicesConfig) {
-
-  private val encoding: String = "UTF-8"
-  val contactHost: String = servicesConfig.baseUrl(s"contact-frontend")
-
-  lazy val serviceName: String = config.get[String]("serviceName")
-  lazy val appAcronym: String = config.get[String]("appAcronym")
 
   lazy val chenUrl: String = servicesConfig.getConfString("check-eori-number.url", "")
   lazy val eisUrl: String = s"${servicesConfig.baseUrl("check-eori-number")}/${chenUrl}"
 
   lazy val feedbackSurveyUrl: String = servicesConfig.getConfString("feedback-survey.url", "")
-
-  def contactAccessibilityHelpDeskLink(path: String): String = {
-    s"$contactHost/contact/accessibility?service=$serviceName&userAction=${encode(path, encoding)}"
-  }
-
   def languageMap: Map[String, Lang] = Map(
     "english" -> Lang("en"),
     "cymraeg" -> Lang("cy"))
 
-  def routeToSwitchLanguage: String => Call = (lang: String) => routes.CustomLanguageSwitchController.switchToLanguage(lang)
-
   lazy val languageTranslationEnabled: Boolean =
     config.getOptional[Boolean]("microservice.services.features.welsh-translation").getOrElse(true)
-
-  lazy val betaFeedbackUrlNoAuth = s"$contactHost/contact/beta-feedback-unauthenticated?service=CHEN"
-
 }

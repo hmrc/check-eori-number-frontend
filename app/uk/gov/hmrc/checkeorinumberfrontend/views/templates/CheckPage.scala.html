@@ -27,7 +27,7 @@
         govukErrorSummary: GovukErrorSummary
 )
 
-@(checkForm: Form[_])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+@(checkForm: Form[_])(implicit request: Request[_], messages: Messages)
 @hasErrors = @{checkForm.hasErrors}
 @layout(pageTitle = messages("checkpage.title"), hasErrors = hasErrors) {
     @formHelper(action = uk.gov.hmrc.checkeorinumberfrontend.controllers.routes.CheckEoriNumberController.result()) {
