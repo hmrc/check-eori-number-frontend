@@ -20,7 +20,7 @@
 @import java.time.format.DateTimeFormatter
 @import java.time.zone.ZoneRulesProvider
 
-@(processingDate: ProcessingDate)(implicit request: Request[_], messages: Messages)
+@(processingDate: ProcessingDate)(implicit messages: Messages)
 
 @date_time_format(time: ProcessingDate) =  @{
     val rules = ZoneRulesProvider.getRules("Europe/London", true)

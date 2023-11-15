@@ -20,9 +20,8 @@ import javax.inject.Inject
 import play.api.data.Forms.{mapping, text}
 import play.api.data.validation.{Constraint, Invalid, Valid}
 import play.api.data.{Form, Mapping}
-import play.api.i18n.{I18nSupport, Lang}
+import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import uk.gov.hmrc.checkeorinumberfrontend.config.AppConfig
 import uk.gov.hmrc.checkeorinumberfrontend.connectors.CheckEoriNumberConnector
 import uk.gov.hmrc.checkeorinumberfrontend.models.internal.CheckSingleEoriNumberRequest
 import uk.gov.hmrc.checkeorinumberfrontend.views.html.templates._
@@ -37,19 +36,9 @@ class CheckEoriNumberController @Inject()(
   validEoriResponsePage: ValidEoriResponsePage,
   invalidEoriResponsePage: InvalidEoriResponsePage,
   xiEoriResponsePage: XIEoriResponsePage
-)(implicit config: AppConfig, ec: ExecutionContext) extends FrontendController(mcc) with I18nSupport {
+)(implicit ec: ExecutionContext) extends FrontendController(mcc) with I18nSupport {
 
   import CheckEoriNumberController.form
-
-  def cymraeg: Action[AnyContent] = Action.async { implicit request =>
-    Future.successful(
-      Redirect(
-        routes.CheckEoriNumberController.checkForm()
-      ).withLang(
-        Lang.apply("cy")
-      )
-    )
-  }
 
   def checkForm: Action[AnyContent] = Action.async { implicit request =>
      Future.successful(Ok(checkPage(form)))

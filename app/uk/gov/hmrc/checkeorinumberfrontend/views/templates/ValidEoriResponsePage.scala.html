@@ -18,7 +18,7 @@
 
 @this(layout: Layout)
 
-@(checkResponse: CheckResponse)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+@(checkResponse: CheckResponse)(implicit request: Request[_], messages: Messages)
 
 @layout(pageTitle = messages("result.valid.heading")) {
         <div class="govuk-panel govuk-panel--confirmation">

@@ -3,7 +3,6 @@
 ->         /hmrc-frontend                 hmrcfrontend.Routes
 
 GET        /                              uk.gov.hmrc.checkeorinumberfrontend.controllers.CheckEoriNumberController.checkForm()
-GET        /cymraeg                       uk.gov.hmrc.checkeorinumberfrontend.controllers.CheckEoriNumberController.cymraeg
 GET        /enter-number                  uk.gov.hmrc.checkeorinumberfrontend.controllers.CheckEoriNumberController.checkForm()
 POST       /result                        uk.gov.hmrc.checkeorinumberfrontend.controllers.CheckEoriNumberController.result()
 GET        /result                        uk.gov.hmrc.checkeorinumberfrontend.controllers.CheckEoriNumberController.checkForm()
