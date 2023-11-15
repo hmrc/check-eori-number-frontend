@@ -1,5 +1,3 @@
-import uk.gov.hmrc.DefaultBuildSettings.integrationTestSettings
-
 val appName = "check-eori-number-frontend"
 
 PlayKeys.playDefaultPort := 8350
@@ -33,5 +31,4 @@ lazy val microservice = Project(appName, file("."))
     // ***************
   )
   .configs(IntegrationTest)
-  .settings(integrationTestSettings(): _*)
   .settings(resolvers += Resolver.jcenterRepo)
