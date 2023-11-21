@@ -77,7 +77,6 @@ class CheckEoriNumberController @Inject()(
         case i: Invalid => i
       }
     }
-    
     private def required(key: String): Constraint[String] = Constraint {
       case "" => Invalid(s"error.$key.required")
       case _ => Valid

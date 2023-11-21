@@ -17,7 +17,7 @@
 package uk.gov.hmrc.checkeorinumberfrontend.controllers
 
 import javax.inject.Inject
-import play.api.mvc.MessagesControllerComponents
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.checkeorinumberfrontend.config.AppConfig
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 
@@ -26,7 +26,7 @@ class ExitSurveyController @Inject() (
   mcc: MessagesControllerComponents
 ) extends FrontendController(mcc){
 
-  def exitSurvey = Action {
+  def exitSurvey: Action[AnyContent] = Action {
     Redirect(appConfig.feedbackSurveyUrl).withNewSession
   }
 
