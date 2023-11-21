@@ -28,4 +28,3 @@ object Address {
   implicit val addressFormat: OFormat[Address] =
     Json.format[Address]
 }
-
