@@ -27,8 +27,8 @@ Getting started with Check EORI number Frontend
  
         Run the services against the current versions in dev, stop the CHEN_FRONTEND service and  start manually
         
-            sm --start CHEN_ALL -r 
-            sm --stop CHEN_FRONTEND
+            sm2 --start CHEN_ALL 
+            sm2 --stop CHEN_FRONTEND
             cd check-eori-number-frontend
             sbt run
 
