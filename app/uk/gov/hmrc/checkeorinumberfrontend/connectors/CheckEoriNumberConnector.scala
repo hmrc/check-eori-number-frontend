@@ -35,7 +35,7 @@ trait CheckEoriNumberConnector {
   )(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[List[CheckResponse]]]
 }
 
-class CheckEoriNumberConnectorImpl @Inject()(
+class CheckEoriNumberConnectorImpl @Inject() (
   http: HttpClient,
   environment: Environment,
   configuration: Configuration,
@@ -46,8 +46,8 @@ class CheckEoriNumberConnectorImpl @Inject()(
     checkSingleEoriNumberRequest: CheckSingleEoriNumberRequest
   )(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[List[CheckResponse]]] = {
     http.GET[List[CheckResponse]](
-      url = s"${appConfig.eisUrl}/check-eori/${checkSingleEoriNumberRequest.eoriNumber}").map(Some(_)
-    ).recoverWith {
+      url = s"${appConfig.eisUrl}/check-eori/${checkSingleEoriNumberRequest.eoriNumber}"
+    ).map(Some(_)).recoverWith {
       case e: UpstreamErrorResponse if e.statusCode == NOT_FOUND =>
         Future.successful(
           Some(

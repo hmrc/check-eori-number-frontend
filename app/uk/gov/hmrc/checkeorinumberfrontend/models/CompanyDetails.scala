@@ -18,7 +18,7 @@ package uk.gov.hmrc.checkeorinumberfrontend.models
 
 import play.api.libs.json.{Json, OFormat}
 
-case class CompanyDetails (
+case class CompanyDetails(
   traderName: TraderName,
   address: Address
 )

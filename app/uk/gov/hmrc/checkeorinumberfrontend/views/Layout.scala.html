@@ -14,13 +14,13 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.hmrcfrontend.views.html.helpers.HmrcLayout
 @import uk.gov.hmrc.hmrcfrontend.views.config.StandardBetaBanner
 @import uk.gov.hmrc.checkeorinumberfrontend.config.AppConfig
 @import uk.gov.hmrc.hmrcfrontend.views.html.helpers.HmrcReportTechnicalIssueHelper
+@import uk.gov.hmrc.hmrcfrontend.views.html.helpers.HmrcStandardPage
+@import uk.gov.hmrc.hmrcfrontend.views.viewmodels.hmrcstandardpage.HmrcStandardPageParams
 
-
-@this(hmrcLayout: HmrcLayout, standardBetaBanner: StandardBetaBanner, appConfig: AppConfig, hmrcReportTechnicalIssueHelper: HmrcReportTechnicalIssueHelper)
+@this(hmrcStandardPage: HmrcStandardPage, standardBetaBanner: StandardBetaBanner, appConfig: AppConfig, hmrcReportTechnicalIssueHelper: HmrcReportTechnicalIssueHelper)
 
 @(pageTitle: String, hasErrors: Boolean = false)(contentBlock: Html)(implicit request: RequestHeader, messages: Messages)
 
@@ -31,7 +31,9 @@
 @errorPrefix = @{s"${messages("global.error.prefix")}: "}
 @gdsTitle = @{s"${if(hasErrors){ errorPrefix } else ""}$pageTitle - ${messages("service.name")} - GOV.UK"}
 
-@hmrcLayout(
+@hmrcStandardPage(
+    HmrcStandardPageParams(
     pageTitle = Some(gdsTitle),
     isWelshTranslationAvailable = appConfig.languageTranslationEnabled
+    )
 )(content)

@@ -29,65 +29,67 @@ import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class CheckEoriNumberController @Inject()(
+class CheckEoriNumberController @Inject() (
   mcc: MessagesControllerComponents,
   connector: CheckEoriNumberConnector,
   checkPage: CheckPage,
   validEoriResponsePage: ValidEoriResponsePage,
   invalidEoriResponsePage: InvalidEoriResponsePage,
   xiEoriResponsePage: XIEoriResponsePage
-)(implicit ec: ExecutionContext) extends FrontendController(mcc) with I18nSupport {
+)(implicit ec: ExecutionContext)
+    extends FrontendController(mcc)
+    with I18nSupport {
 
   import CheckEoriNumberController.form
 
   def checkForm: Action[AnyContent] = Action.async { implicit request =>
-     Future.successful(Ok(checkPage(form)))
+    Future.successful(Ok(checkPage(form)))
   }
 
   def result: Action[AnyContent] = Action.async { implicit request =>
     form.bindFromRequest().fold(
       errors => Future(BadRequest(checkPage(errors))),
-      check => connector.check(check).flatMap {
-        case Some(head::_) if head.eori.matches("XI[0-9]{12}|XI[0-9]{15}$") =>
-          Future.successful(Ok(xiEoriResponsePage(head)))
-        case Some(head::_) if head.valid =>
-          Future.successful(Ok(validEoriResponsePage(head)))
-        case Some(head::_) =>
-          Future.successful(Ok(invalidEoriResponsePage(head)))
-        case _ => throw new MissingCheckResponseException
-      }
+      check =>
+        connector.check(check).flatMap {
+          case Some(head :: _) if head.eori.matches("XI[0-9]{12}|XI[0-9]{15}$") =>
+            Future.successful(Ok(xiEoriResponsePage(head)))
+          case Some(head :: _) if head.valid =>
+            Future.successful(Ok(validEoriResponsePage(head)))
+          case Some(head :: _) =>
+            Future.successful(Ok(invalidEoriResponsePage(head)))
+          case _ => throw new MissingCheckResponseException
+        }
     )
   }
   class MissingCheckResponseException extends RuntimeException("no CheckResponse from CheckEoriNumberConnector")
 }
 
-  object CheckEoriNumberController {
+object CheckEoriNumberController {
 
-    private val eoriRegex: String = "^(GB|XI)[0-9]{12}|(GB|XI)[0-9]{15}$"
+  private val eoriRegex: String = "^(GB|XI)[0-9]{12}|(GB|XI)[0-9]{15}$"
 
-    val form: Form[CheckSingleEoriNumberRequest] = Form(
-      mapping(
-        "eori" -> mandatoryEoriNumber("eori")
-      )(CheckSingleEoriNumberRequest.apply)(CheckSingleEoriNumberRequest.unapply)
-    )
+  val form: Form[CheckSingleEoriNumberRequest] = Form(
+    mapping(
+      "eori" -> mandatoryEoriNumber("eori")
+    )(CheckSingleEoriNumberRequest.apply)(CheckSingleEoriNumberRequest.unapply)
+  )
 
-    private def combine[T](c1: Constraint[T], c2: Constraint[T]): Constraint[T] = Constraint { v =>
-      c1.apply(v) match {
-        case Valid => c2.apply(v)
-        case i: Invalid => i
-      }
-    }
-    private def required(key: String): Constraint[String] = Constraint {
-      case "" => Invalid(s"error.$key.required")
-      case _ => Valid
-    }
-
-    private def eoriNumberConstraint(key: String): Constraint[String] = Constraint {
-      case a if !a.matches(eoriRegex) => Invalid(s"error.$key.invalid")
-      case _ => Valid
-    }
-
-    private def mandatoryEoriNumber(key: String): Mapping[String] = {
-      text.transform[String](_.trim, s => s).verifying(combine(required(key),eoriNumberConstraint(key)))
+  private def combine[T](c1: Constraint[T], c2: Constraint[T]): Constraint[T] = Constraint { v =>
+    c1.apply(v) match {
+      case Valid      => c2.apply(v)
+      case i: Invalid => i
     }
   }
+  private def required(key: String): Constraint[String] = Constraint {
+    case "" => Invalid(s"error.$key.required")
+    case _  => Valid
+  }
+
+  private def eoriNumberConstraint(key: String): Constraint[String] = Constraint {
+    case a if !a.matches(eoriRegex) => Invalid(s"error.$key.invalid")
+    case _                          => Valid
+  }
+
+  private def mandatoryEoriNumber(key: String): Mapping[String] =
+    text.transform[String](_.trim, s => s).verifying(combine(required(key), eoriNumberConstraint(key)))
+}
