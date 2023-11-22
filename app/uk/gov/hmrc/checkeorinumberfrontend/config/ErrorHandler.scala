@@ -24,7 +24,7 @@ import uk.gov.hmrc.checkeorinumberfrontend.views.html.{ErrorTemplate, NotFoundTe
 import uk.gov.hmrc.play.bootstrap.frontend.http.FrontendErrorHandler
 
 @Singleton
-class ErrorHandler @Inject()(
+class ErrorHandler @Inject() (
   errorTemplate: ErrorTemplate,
   notFoundTemplate: NotFoundTemplate,
   val messagesApi: MessagesApi
@@ -37,8 +37,8 @@ class ErrorHandler @Inject()(
   )(implicit request: Request[_]): Html =
     errorTemplate()
 
-  override def notFoundTemplate(
-    implicit request: Request[_]
+  override def notFoundTemplate(implicit
+    request: Request[_]
   ): Html =
     notFoundTemplate()
 

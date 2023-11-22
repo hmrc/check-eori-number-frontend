@@ -23,12 +23,13 @@ import play.api.mvc._
 import uk.gov.hmrc.play.language._
 import uk.gov.hmrc.checkeorinumberfrontend.config.AppConfig
 
-class CustomLanguageSwitchController @Inject()(
+class CustomLanguageSwitchController @Inject() (
   configuration: Configuration,
   val appConfig: AppConfig,
   languageUtils: LanguageUtils,
   controllerComponents: ControllerComponents
-) extends LanguageController(languageUtils, controllerComponents) with I18nSupport {
+) extends LanguageController(languageUtils, controllerComponents)
+    with I18nSupport {
 
   def fallbackURL: String = routes.CheckEoriNumberController.checkForm().url
 

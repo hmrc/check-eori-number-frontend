@@ -20,7 +20,6 @@ import play.api.libs.json.{Json, OFormat}
 
 case class CheckMultipleEoriNumbersRequest(eoriNumber: List[EoriNumber])
 
-
 object CheckMultipleEoriNumbersRequest {
   implicit val format: OFormat[CheckMultipleEoriNumbersRequest] = Json.format[CheckMultipleEoriNumbersRequest]
 }

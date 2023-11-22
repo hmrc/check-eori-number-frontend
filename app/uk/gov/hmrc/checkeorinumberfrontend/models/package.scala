@@ -21,8 +21,8 @@ import java.time.format.DateTimeFormatter
 
 package object models {
 
-  type TraderName = String
-  type EoriNumber = String
+  type TraderName     = String
+  type EoriNumber     = String
   type ProcessingDate = ZonedDateTime
 
   implicit class RichProcessingDate(val self: ProcessingDate) {

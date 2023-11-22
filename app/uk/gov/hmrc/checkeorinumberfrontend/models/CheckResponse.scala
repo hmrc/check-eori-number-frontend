@@ -20,7 +20,7 @@ import java.time.{ZoneId, ZonedDateTime}
 
 import play.api.libs.json.{Json, OFormat}
 
-case class CheckResponse (
+case class CheckResponse(
   eori: EoriNumber,
   valid: Boolean,
   companyDetails: Option[CompanyDetails],

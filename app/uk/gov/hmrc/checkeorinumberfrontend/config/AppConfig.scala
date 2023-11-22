@@ -22,15 +22,13 @@ import play.api.i18n.Lang
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 @Singleton
-class AppConfig @Inject()(config: Configuration, servicesConfig: ServicesConfig) {
+class AppConfig @Inject() (config: Configuration, servicesConfig: ServicesConfig) {
 
   lazy val chenUrl: String = servicesConfig.getConfString("check-eori-number.url", "")
-  lazy val eisUrl: String = s"${servicesConfig.baseUrl("check-eori-number")}/${chenUrl}"
+  lazy val eisUrl: String  = s"${servicesConfig.baseUrl("check-eori-number")}/$chenUrl"
 
   lazy val feedbackSurveyUrl: String = servicesConfig.getConfString("feedback-survey.url", "")
-  def languageMap: Map[String, Lang] = Map(
-    "english" -> Lang("en"),
-    "cymraeg" -> Lang("cy"))
+  def languageMap: Map[String, Lang] = Map("english" -> Lang("en"), "cymraeg" -> Lang("cy"))
 
   lazy val languageTranslationEnabled: Boolean =
     config.getOptional[Boolean]("microservice.services.features.welsh-translation").getOrElse(true)

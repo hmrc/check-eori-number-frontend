@@ -24,7 +24,7 @@ import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 class ExitSurveyController @Inject() (
   appConfig: AppConfig,
   mcc: MessagesControllerComponents
-) extends FrontendController(mcc){
+) extends FrontendController(mcc) {
 
   def exitSurvey: Action[AnyContent] = Action {
     Redirect(appConfig.feedbackSurveyUrl).withNewSession
