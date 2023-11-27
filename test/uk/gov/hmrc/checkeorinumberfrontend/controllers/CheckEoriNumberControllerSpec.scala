@@ -30,12 +30,12 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class CheckEoriNumberControllerSpec extends BaseSpec {
 
-  val checkPage: CheckPage = app.injector.instanceOf[CheckPage]
-  val validEoriResponsePage: ValidEoriResponsePage = app.injector.instanceOf[ValidEoriResponsePage]
+  val checkPage: CheckPage                             = app.injector.instanceOf[CheckPage]
+  val validEoriResponsePage: ValidEoriResponsePage     = app.injector.instanceOf[ValidEoriResponsePage]
   val invalidEoriResponsePage: InvalidEoriResponsePage = app.injector.instanceOf[InvalidEoriResponsePage]
-  val xiEoriResponsePage: XIEoriResponsePage = app.injector.instanceOf[XIEoriResponsePage]
-  val eoriNumber: EoriNumber = "GB123456787665"
-  val xiEoriNumber: EoriNumber = "XI123456789123456"
+  val xiEoriResponsePage: XIEoriResponsePage           = app.injector.instanceOf[XIEoriResponsePage]
+  val eoriNumber: EoriNumber                           = "GB123456787665"
+  val xiEoriNumber: EoriNumber                         = "XI123456789123456"
 
   val controller = new CheckEoriNumberController(
     mcc,
@@ -94,7 +94,6 @@ class CheckEoriNumberControllerSpec extends BaseSpec {
       contentAsString(result) should include(messagesApi("result.invalid.heading"))
     }
 
-
   }
 
   class MockCheckEoriNumberConnector extends CheckEoriNumberConnector {
@@ -104,9 +103,9 @@ class CheckEoriNumberControllerSpec extends BaseSpec {
     def check(
       check: CheckSingleEoriNumberRequest
     )(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[List[CheckResponse]]] = check.eoriNumber match {
-      case `eoriNumber` => Future.successful(Some(mockValidResponse))
+      case `eoriNumber`   => Future.successful(Some(mockValidResponse))
       case `xiEoriNumber` => Future.successful(Some(mockValidResponse.map(_.copy(eori = xiEoriNumber))))
-      case _ => Future.successful(Some(mockValidResponse.map(_.copy(valid = false))))
+      case _              => Future.successful(Some(mockValidResponse.map(_.copy(valid = false))))
     }
   }
 

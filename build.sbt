@@ -1,15 +1,11 @@
-val appName = "check-eori-number-frontend"
-
-PlayKeys.playDefaultPort := 8350
-
-val silencerVersion = "1.7.9"
+scalafmtOnCompile := true
 
 lazy val microservice = Project(appName, file("."))
   .enablePlugins(play.sbt.PlayScala, SbtAutoBuildPlugin, SbtGitVersioning, SbtDistributablesPlugin)
   .settings(
-    majorVersion                     := 0,
-    scalaVersion                     := "2.13.8",
-    libraryDependencies              ++= AppDependencies.compile ++ AppDependencies.test,
+    majorVersion := 0,
+    scalaVersion := "2.13.8",
+    libraryDependencies ++= AppDependencies.compile ++ AppDependencies.test,
     TwirlKeys.templateImports ++= Seq(
       "uk.gov.hmrc.checkeorinumberfrontend.config.AppConfig",
       "uk.gov.hmrc.checkeorinumberfrontend.views.html._",
@@ -32,3 +28,7 @@ lazy val microservice = Project(appName, file("."))
   )
   .configs(IntegrationTest)
   .settings(resolvers += Resolver.jcenterRepo)
+
+PlayKeys.playDefaultPort := 8350
+val appName         = "check-eori-number-frontend"
+val silencerVersion = "1.7.9"
