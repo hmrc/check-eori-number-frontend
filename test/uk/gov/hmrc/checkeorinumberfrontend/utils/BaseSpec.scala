@@ -19,13 +19,14 @@ package uk.gov.hmrc.checkeorinumberfrontend.utils
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
+import play.api.i18n.Lang
 import play.api.test.FakeRequest
 import play.api.{Configuration, Environment}
 import uk.gov.hmrc.checkeorinumberfrontend.config.AppConfig
-import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
-import scala.concurrent.ExecutionContext
-import play.api.i18n.Lang
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
+
+import scala.concurrent.ExecutionContext
 
 trait BaseSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite {
 
