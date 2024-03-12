@@ -16,15 +16,14 @@
 
 package uk.gov.hmrc.checkeorinumberfrontend.controllers
 
-import javax.inject.Inject
-import play.api.Configuration
 import play.api.i18n.{I18nSupport, Lang}
 import play.api.mvc._
-import uk.gov.hmrc.play.language._
 import uk.gov.hmrc.checkeorinumberfrontend.config.AppConfig
+import uk.gov.hmrc.play.language._
+
+import javax.inject.Inject
 
 class CustomLanguageSwitchController @Inject() (
-  configuration: Configuration,
   val appConfig: AppConfig,
   languageUtils: LanguageUtils,
   controllerComponents: ControllerComponents
