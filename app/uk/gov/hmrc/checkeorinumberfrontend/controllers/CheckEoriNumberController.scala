@@ -53,11 +53,11 @@ class CheckEoriNumberController @Inject() (
         connector.check(check).flatMap {
           case Some(head :: _) if head.eori.matches("XI[0-9]{12}|XI[0-9]{15}$") =>
             Future.successful(Ok(xiEoriResponsePage(head)))
-          case Some(head :: _) if head.valid =>
+          case Some(head :: _) if head.valid                                    =>
             Future.successful(Ok(validEoriResponsePage(head)))
-          case Some(head :: _) =>
+          case Some(head :: _)                                                  =>
             Future.successful(Ok(invalidEoriResponsePage(head)))
-          case _ => throw new MissingCheckResponseException
+          case _                                                                => throw new MissingCheckResponseException
         }
     )
   }
@@ -80,7 +80,7 @@ object CheckEoriNumberController {
       case i: Invalid => i
     }
   }
-  private def required(key: String): Constraint[String] = Constraint {
+  private def required(key: String): Constraint[String]                       = Constraint {
     case "" => Invalid(s"error.$key.required")
     case _  => Valid
   }

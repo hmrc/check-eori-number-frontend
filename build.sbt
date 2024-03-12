@@ -2,7 +2,6 @@ import uk.gov.hmrc.DefaultBuildSettings
 
 scalafmtOnCompile := true
 
-
 ThisBuild / majorVersion := 0
 ThisBuild / scalaVersion := "2.13.13"
 

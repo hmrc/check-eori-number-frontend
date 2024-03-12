@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.checkeorinumberfrontend.controllers;
+package uk.gov.hmrc.checkeorinumberfrontend.controllers
 
 import org.scalatestplus.mockito.MockitoSugar.mock
 import play.api.i18n.Lang

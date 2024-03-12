@@ -34,12 +34,12 @@ trait BaseSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite {
   val fakeRequest: FakeRequest[AnyContentAsEmpty.type] = FakeRequest("GET", "/")
   val env: Environment                                 = Environment.simple()
   val configuration: Configuration                     = Configuration.load(env)
-  val mcc: MessagesControllerComponents = uk.gov.hmrc.play.bootstrap.tools.Stubs.stubMessagesControllerComponents()
-  val messagesApi: MessagesApi          = mcc.messagesApi
-  val serviceConfig                     = new ServicesConfig(configuration)
-  implicit val lang: Lang               = Lang.defaultLang
-  implicit val appConfig: AppConfig     = new AppConfig(configuration, serviceConfig)
-  implicit val executionContext: ExecutionContext = app.injector.instanceOf[ExecutionContext]
-  implicit val headerCarrier: HeaderCarrier       = HeaderCarrier()
+  val mcc: MessagesControllerComponents                = uk.gov.hmrc.play.bootstrap.tools.Stubs.stubMessagesControllerComponents()
+  val messagesApi: MessagesApi                         = mcc.messagesApi
+  val serviceConfig                                    = new ServicesConfig(configuration)
+  implicit val lang: Lang                              = Lang.defaultLang
+  implicit val appConfig: AppConfig                    = new AppConfig(configuration, serviceConfig)
+  implicit val executionContext: ExecutionContext      = app.injector.instanceOf[ExecutionContext]
+  implicit val headerCarrier: HeaderCarrier            = HeaderCarrier()
 
 }
