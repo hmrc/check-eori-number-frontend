@@ -19,7 +19,8 @@ package uk.gov.hmrc.checkeorinumberfrontend.utils
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
-import play.api.i18n.Lang
+import play.api.i18n.{Lang, MessagesApi}
+import play.api.mvc.{AnyContentAsEmpty, MessagesControllerComponents}
 import play.api.test.FakeRequest
 import play.api.{Configuration, Environment}
 import uk.gov.hmrc.checkeorinumberfrontend.config.AppConfig
@@ -30,15 +31,15 @@ import scala.concurrent.ExecutionContext
 
 trait BaseSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite {
 
-  val fakeRequest               = FakeRequest("GET", "/")
-  val env                       = Environment.simple()
-  val configuration             = Configuration.load(env)
-  val mcc                       = uk.gov.hmrc.play.bootstrap.tools.Stubs.stubMessagesControllerComponents()
-  val messagesApi               = mcc.messagesApi
-  val serviceConfig             = new ServicesConfig(configuration)
-  implicit val lang: Lang       = Lang.defaultLang
-  implicit val appConfig        = new AppConfig(configuration, serviceConfig)
-  implicit val executionContext = app.injector.instanceOf[ExecutionContext]
-  implicit val headerCarrier    = HeaderCarrier()
+  val fakeRequest: FakeRequest[AnyContentAsEmpty.type] = FakeRequest("GET", "/")
+  val env: Environment                                 = Environment.simple()
+  val configuration: Configuration                     = Configuration.load(env)
+  val mcc: MessagesControllerComponents                = uk.gov.hmrc.play.bootstrap.tools.Stubs.stubMessagesControllerComponents()
+  val messagesApi: MessagesApi                         = mcc.messagesApi
+  val serviceConfig                                    = new ServicesConfig(configuration)
+  implicit val lang: Lang                              = Lang.defaultLang
+  implicit val appConfig: AppConfig                    = new AppConfig(configuration, serviceConfig)
+  implicit val executionContext: ExecutionContext      = app.injector.instanceOf[ExecutionContext]
+  implicit val headerCarrier: HeaderCarrier            = HeaderCarrier()
 
 }

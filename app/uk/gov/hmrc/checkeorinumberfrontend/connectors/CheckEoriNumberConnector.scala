@@ -16,16 +16,15 @@
 
 package uk.gov.hmrc.checkeorinumberfrontend.connectors
 
-import javax.inject.Inject
-import play.api.{Configuration, Environment}
+import com.google.inject.ImplementedBy
 import play.api.http.Status.NOT_FOUND
-import uk.gov.hmrc.http.{HeaderCarrier, HttpClient, UpstreamErrorResponse}
-import uk.gov.hmrc.http.HttpReads.Implicits._
 import uk.gov.hmrc.checkeorinumberfrontend.config.AppConfig
 import uk.gov.hmrc.checkeorinumberfrontend.models._
 import uk.gov.hmrc.checkeorinumberfrontend.models.internal.CheckSingleEoriNumberRequest
-import com.google.inject.ImplementedBy
+import uk.gov.hmrc.http.HttpReads.Implicits._
+import uk.gov.hmrc.http.{HeaderCarrier, HttpClient, UpstreamErrorResponse}
 
+import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 @ImplementedBy(classOf[CheckEoriNumberConnectorImpl])
@@ -37,8 +36,6 @@ trait CheckEoriNumberConnector {
 
 class CheckEoriNumberConnectorImpl @Inject() (
   http: HttpClient,
-  environment: Environment,
-  configuration: Configuration,
   appConfig: AppConfig
 ) extends CheckEoriNumberConnector {
 
