@@ -93,6 +93,10 @@ class CheckEoriNumberControllerSpec extends BaseSpec with BeforeAndAfterEach {
       val result = controller.result(validRequest)
       status(result) shouldBe Status.OK
       contentAsString(result) should include(messagesApi("result.valid.heading"))
+      contentAsString(result) should include(messagesApi("common.feedback.title"))
+      contentAsString(result) should include(messagesApi("common.feedback.p1"))
+      contentAsString(result) should include(messagesApi("common.feedback.link"))
+      contentAsString(result) should include(messagesApi("common.feedback.p2"))
     }
 
     "contain content for an XI EORI" in {
@@ -109,6 +113,11 @@ class CheckEoriNumberControllerSpec extends BaseSpec with BeforeAndAfterEach {
       )
       val result = controller.result(badRequest)
       contentAsString(result) should include(messagesApi("result.invalid.heading"))
+      contentAsString(result) should include(messagesApi("common.feedback.title"))
+      contentAsString(result) should include(messagesApi("common.feedback.p1"))
+      contentAsString(result) should include(messagesApi("common.feedback.link"))
+      contentAsString(result) should include(messagesApi("common.feedback.p2"))
+
     }
 
     "form is empty" in {
