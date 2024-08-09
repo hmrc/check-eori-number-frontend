@@ -16,7 +16,8 @@
 
 @()(implicit messages: Messages)
 
+<h2 class="govuk-heading-m">@messages("common.feedback.title")</h2>
+<p class="govuk-body">@messages("common.feedback.p1")</p>
 <p class="govuk-body">
-    <a href="@uk.gov.hmrc.checkeorinumberfrontend.controllers.routes.ExitSurveyController.exitSurvey"
-    class="govuk-link">@messages("result.exit-survey.link")</a> @messages("result.exit-survey.content")
+ <a class="govuk-link" href="@uk.gov.hmrc.checkeorinumberfrontend.controllers.routes.ExitSurveyController.exitSurvey">@messages("common.feedback.link")</a> @messages("common.feedback.p2")
 </p>

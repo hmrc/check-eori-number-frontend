@@ -74,3 +74,8 @@ footer.govukHelp.text = Help wrth ddefnyddio GOV.UK
 footer.govukHelp.url = https://www.gov.uk/help
 footer.accessibility.text = Datganiad hygyrchedd
 footer.accessibility.url = /check-eori-number-frontend/accessibility-statement{0}
+
+common.feedback.title = Cyn i chi fynd
+common.feedback.p1 = Mae’ch adborth yn ein helpu i wella ein gwasanaeth.
+common.feedback.link = Llenwch ein harolwg
+common.feedback.p2 = i rannu’ch adborth ar y gwasanaeth.
