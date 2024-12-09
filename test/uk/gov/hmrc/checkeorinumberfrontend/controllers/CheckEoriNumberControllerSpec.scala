@@ -41,6 +41,8 @@ class CheckEoriNumberControllerSpec extends BaseSpec with BeforeAndAfterEach {
   val mockCheckEoriNumberConnector: CheckEoriNumberConnector = mock[CheckEoriNumberConnector]
   val mockValidResponse: List[CheckResponse]                 = List(CheckResponse(eoriNumber, valid = true, None))
 
+  private val eoriKey = "eoriNumber"
+
   val controller = new CheckEoriNumberController(
     mcc,
     mockCheckEoriNumberConnector,
@@ -70,21 +72,39 @@ class CheckEoriNumberControllerSpec extends BaseSpec with BeforeAndAfterEach {
     }
   }
 
+  "POST /" should {
+
+    val request = FakeRequest("POST", "/")
+      .withSession(eoriKey -> eoriNumber)
+
+    "return 303 and redirect to /result when valid data is submitted" in {
+      val result = controller.onSubmit()(request.withFormUrlEncodedBody("eori" -> eoriNumber))
+      status(result) shouldBe SEE_OTHER
+      redirectLocation(result) shouldBe Some(routes.CheckEoriNumberController.result().url)
+    }
+
+    "return 400 and render error page" when {
+
+      "form is empty" in {
+        val result = controller.onSubmit()(request.withFormUrlEncodedBody("eori" -> ""))
+        contentAsString(result) should include(messagesApi("error.eori.required"))
+      }
+
+      "form with invalid data" in {
+        val result = controller.onSubmit()(request.withFormUrlEncodedBody("eori" -> "XYZ"))
+        contentAsString(result) should include(messagesApi("error.eori.invalid"))
+      }
+    }
+  }
+
   "POST /result" should {
+
     val validRequest = FakeRequest("POST", "/results")
-      .withFormUrlEncodedBody("eori" -> eoriNumber)
+      .withSession(eoriKey -> eoriNumber)
 
     val validXIRequest = FakeRequest("POST", "/results")
+      .withSession(eoriKey -> eoriNumber)
       .withFormUrlEncodedBody("eori" -> xiEoriNumber)
-
-    val badRequest = FakeRequest("POST", "/results")
-      .withFormUrlEncodedBody("eori" -> "GB999999999999")
-
-    val badRequestInvalidData = FakeRequest("POST", "/results")
-      .withFormUrlEncodedBody("eori" -> "XYZ")
-
-    val badRequestNoContent = FakeRequest("POST", "/results")
-      .withFormUrlEncodedBody("eori" -> "")
 
     "return 200" in {
       when(mockCheckEoriNumberConnector.check(any())(any(), any())).thenReturn(
@@ -108,6 +128,11 @@ class CheckEoriNumberControllerSpec extends BaseSpec with BeforeAndAfterEach {
     }
 
     "contain content for invalid EORI" in {
+
+      val badRequest = FakeRequest("POST", "/results")
+        .withSession(eoriKey -> eoriNumber)
+        .withFormUrlEncodedBody("eori" -> "GB999999999999")
+
       when(mockCheckEoriNumberConnector.check(any())(any(), any())).thenReturn(
         Future.successful(Some(mockValidResponse.map(_.copy(valid = false))))
       )
@@ -118,16 +143,6 @@ class CheckEoriNumberControllerSpec extends BaseSpec with BeforeAndAfterEach {
       contentAsString(result) should include(messagesApi("common.feedback.link"))
       contentAsString(result) should include(messagesApi("common.feedback.p2"))
 
-    }
-
-    "form is empty" in {
-      val result = controller.result(badRequestNoContent)
-      contentAsString(result) should include(messagesApi("error.eori.required"))
-    }
-
-    "form with invalid data" in {
-      val result = controller.result(badRequestInvalidData)
-      contentAsString(result) should include(messagesApi("error.eori.invalid"))
     }
 
     "throw an exception when backend returns No data" in {

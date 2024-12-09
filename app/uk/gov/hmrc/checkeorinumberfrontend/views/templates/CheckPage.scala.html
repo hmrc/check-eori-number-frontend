@@ -30,7 +30,7 @@
 @(checkForm: Form[_])(implicit request: Request[_], messages: Messages)
 @hasErrors = @{checkForm.hasErrors}
 @layout(pageTitle = messages("checkpage.title"), hasErrors = hasErrors) {
-    @formHelper(action = uk.gov.hmrc.checkeorinumberfrontend.controllers.routes.CheckEoriNumberController.result()) {
+    @formHelper(action = uk.gov.hmrc.checkeorinumberfrontend.controllers.routes.CheckEoriNumberController.onSubmit()) {
         @checkForm.errors.map { err =>
             @govukErrorSummary(ErrorSummary(
                 errorList = Seq(
