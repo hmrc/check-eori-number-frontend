@@ -46,7 +46,7 @@ lazy val scoverageSettings: Seq[Setting[_]] = Seq(
   coverageExcludedPackages := "<empty>;Reverse.*;.*config.ErrorHandler;.*components.*;" +
     ".*javascript.*;.*Routes.*;.*viewmodels.*;.*ViewUtils.*;.*GuiceInjector;.*views.*;" +
     ".*Routes.*;.*viewmodels.govuk.*;app.*;prod.*",
-  coverageMinimumStmtTotal := 90,
+  coverageMinimumStmtTotal := 97,
   coverageFailOnMinimum    := false,
   coverageHighlighting     := true,
   Test / parallelExecution := false

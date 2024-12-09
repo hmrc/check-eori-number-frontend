@@ -22,7 +22,8 @@ import uk.gov.hmrc.checkeorinumberfrontend.config.AppConfig
 import uk.gov.hmrc.checkeorinumberfrontend.models._
 import uk.gov.hmrc.checkeorinumberfrontend.models.internal.CheckSingleEoriNumberRequest
 import uk.gov.hmrc.http.HttpReads.Implicits._
-import uk.gov.hmrc.http.{HeaderCarrier, HttpClient, UpstreamErrorResponse}
+import uk.gov.hmrc.http.client.HttpClientV2
+import uk.gov.hmrc.http.{HeaderCarrier, StringContextOps, UpstreamErrorResponse}
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
@@ -35,22 +36,22 @@ trait CheckEoriNumberConnector {
 }
 
 class CheckEoriNumberConnectorImpl @Inject() (
-  http: HttpClient,
+  http: HttpClientV2,
   appConfig: AppConfig
 ) extends CheckEoriNumberConnector {
 
   def check(
     checkSingleEoriNumberRequest: CheckSingleEoriNumberRequest
   )(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[List[CheckResponse]]] = {
-    http.GET[List[CheckResponse]](
-      url = s"${appConfig.eisUrl}/check-eori/${checkSingleEoriNumberRequest.eoriNumber}"
-    ).map(Some(_)).recoverWith {
-      case e: UpstreamErrorResponse if e.statusCode == NOT_FOUND =>
-        Future.successful(
-          Some(
-            List(CheckResponse(checkSingleEoriNumberRequest.eoriNumber, valid = false, None))
+    http.get(url"${appConfig.eisUrl}/check-eori/${checkSingleEoriNumberRequest.eoriNumber}")
+      .execute[List[CheckResponse]].map(Some(_))
+      .recoverWith {
+        case e: UpstreamErrorResponse if e.statusCode == NOT_FOUND =>
+          Future.successful(
+            Some(
+              List(CheckResponse(checkSingleEoriNumberRequest.eoriNumber, valid = false, None))
+            )
           )
-        )
-    }
+      }
   }
 }
