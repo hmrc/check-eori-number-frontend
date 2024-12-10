@@ -16,7 +16,6 @@
 
 package uk.gov.hmrc.checkeorinumberfrontend.controllers
 
-import javax.inject.Inject
 import play.api.data.Forms.{mapping, text}
 import play.api.data.validation.{Constraint, Invalid, Valid}
 import play.api.data.{Form, Mapping}
@@ -27,7 +26,8 @@ import uk.gov.hmrc.checkeorinumberfrontend.models.internal.CheckSingleEoriNumber
 import uk.gov.hmrc.checkeorinumberfrontend.views.html.templates._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 
-import scala.concurrent.{ExecutionContext, Future}
+import javax.inject.Inject
+import scala.concurrent.ExecutionContext
 
 class CheckEoriNumberController @Inject() (
   mcc: MessagesControllerComponents,
@@ -40,26 +40,30 @@ class CheckEoriNumberController @Inject() (
     extends FrontendController(mcc)
     with I18nSupport {
 
-  import CheckEoriNumberController.form
+  import CheckEoriNumberController.{eoriKey, form}
 
-  def checkForm: Action[AnyContent] = Action.async { implicit request =>
-    Future.successful(Ok(checkPage(form)))
+  def checkForm: Action[AnyContent] = Action { implicit request =>
+    Ok(checkPage(form))
+  }
+
+  def onSubmit(): Action[AnyContent] = Action { implicit request =>
+    form.bindFromRequest().fold(
+      errors => BadRequest(checkPage(errors)),
+      value => Redirect(routes.CheckEoriNumberController.result()).withSession(eoriKey -> value.eoriNumber)
+    )
   }
 
   def result: Action[AnyContent] = Action.async { implicit request =>
-    form.bindFromRequest().fold(
-      errors => Future(BadRequest(checkPage(errors))),
-      check =>
-        connector.check(check).flatMap {
-          case Some(head :: _) if head.eori.matches("XI[0-9]{12}|XI[0-9]{15}$") =>
-            Future.successful(Ok(xiEoriResponsePage(head)))
-          case Some(head :: _) if head.valid                                    =>
-            Future.successful(Ok(validEoriResponsePage(head)))
-          case Some(head :: _)                                                  =>
-            Future.successful(Ok(invalidEoriResponsePage(head)))
-          case _                                                                => throw new MissingCheckResponseException
-        }
-    )
+    connector.check(CheckSingleEoriNumberRequest(request.session(eoriKey))).map {
+      case Some(head :: _) if head.eori.matches("XI[0-9]{12}|XI[0-9]{15}$") =>
+        Ok(xiEoriResponsePage(head))
+      case Some(head :: _) if head.valid                                    =>
+        Ok(validEoriResponsePage(head))
+      case Some(head :: _)                                                  =>
+        Ok(invalidEoriResponsePage(head))
+      case _                                                                =>
+        throw new MissingCheckResponseException
+    }
   }
   class MissingCheckResponseException extends RuntimeException("no CheckResponse from CheckEoriNumberConnector")
 }
@@ -67,6 +71,8 @@ class CheckEoriNumberController @Inject() (
 object CheckEoriNumberController {
 
   private val eoriRegex: String = "^(GB|XI)[0-9]{12}|(GB|XI)[0-9]{15}$"
+
+  val eoriKey = "eoriNumber"
 
   val form: Form[CheckSingleEoriNumberRequest] = Form(
     mapping(

@@ -16,7 +16,7 @@
 
 @this(layout: Layout)
 
-@()(implicit request: Request[_], messages: Messages)
+@()(implicit request: RequestHeader, messages: Messages)
 @layout(pageTitle = (messages("global.error.InternalServerError500.title"))) {
  <h1 class="govuk-heading-xl">@messages("global.error.InternalServerError500.heading")</h1>
  <p class="govuk-body">@{messages("global.error.InternalServerError500.p1")}</p>
