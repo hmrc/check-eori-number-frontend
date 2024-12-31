@@ -27,9 +27,9 @@
     val prepostion = messages("result.at")
     val month = messages(s"result.month.${time.getMonthValue}")
     if (rules.isDaylightSavings(time.toInstant)) {
-        to_lower_am_pm(time.format(DateTimeFormatter.ofPattern(s"d '$month' YYYY '$prepostion' h:mma '(BST)'")))
+        to_lower_am_pm(time.format(DateTimeFormatter.ofPattern(s"d '$month' yyyy '$prepostion' h:mma '(BST)'")))
     } else {
-        to_lower_am_pm(time.format(DateTimeFormatter.ofPattern(s"d '$month' YYYY '$prepostion' h:mma '(GMT)'")))
+        to_lower_am_pm(time.format(DateTimeFormatter.ofPattern(s"d '$month' yyyy '$prepostion' h:mma '(GMT)'")))
     }
 }
 @to_lower_am_pm(time: String) = @{
