@@ -16,15 +16,18 @@
 
 package uk.gov.hmrc.checkeorinumberfrontend.controllers
 
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.{reset, when}
+import org.mockito.ArgumentMatchers.{any, eq => eqTo}
+import org.mockito.Mockito.{reset, verifyNoInteractions, when}
 import org.scalatest.BeforeAndAfterEach
 import org.scalatestplus.mockito.MockitoSugar.mock
 import play.api.http.Status
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.checkeorinumberfrontend.connectors.CheckEoriNumberConnector
+import uk.gov.hmrc.checkeorinumberfrontend.controllers.actions.UnauthenticatedAction
+import uk.gov.hmrc.checkeorinumberfrontend.models.internal.CheckSingleEoriNumberRequest
 import uk.gov.hmrc.checkeorinumberfrontend.models.{CheckResponse, EoriNumber}
+import uk.gov.hmrc.checkeorinumberfrontend.repositories.EoriNumberCache
 import uk.gov.hmrc.checkeorinumberfrontend.utils.BaseSpec
 import uk.gov.hmrc.checkeorinumberfrontend.views.html.templates.{CheckPage, InvalidEoriResponsePage, ValidEoriResponsePage, XIEoriResponsePage}
 
@@ -39,13 +42,14 @@ class CheckEoriNumberControllerSpec extends BaseSpec with BeforeAndAfterEach {
   val eoriNumber: EoriNumber                                 = "GB123456787665"
   val xiEoriNumber: EoriNumber                               = "XI123456789123456"
   val mockCheckEoriNumberConnector: CheckEoriNumberConnector = mock[CheckEoriNumberConnector]
+  val mockEoriNumberCache: EoriNumberCache                   = mock[EoriNumberCache]
   val mockValidResponse: List[CheckResponse]                 = List(CheckResponse(eoriNumber, valid = true, None))
-
-  private val eoriKey = "eoriNumber"
 
   val controller = new CheckEoriNumberController(
     mcc,
+    app.injector.instanceOf[UnauthenticatedAction],
     mockCheckEoriNumberConnector,
+    mockEoriNumberCache,
     checkPage,
     validEoriResponsePage,
     invalidEoriResponsePage,
@@ -54,6 +58,7 @@ class CheckEoriNumberControllerSpec extends BaseSpec with BeforeAndAfterEach {
 
   override def beforeEach(): Unit = {
     reset(mockCheckEoriNumberConnector)
+    reset(mockEoriNumberCache)
     super.beforeEach()
   }
 
@@ -75,9 +80,12 @@ class CheckEoriNumberControllerSpec extends BaseSpec with BeforeAndAfterEach {
   "POST /" should {
 
     val request = FakeRequest("POST", "/")
-      .withSession(eoriKey -> eoriNumber)
 
-    "return 303 and redirect to /result when valid data is submitted" in {
+    "return 303, save to cache and redirect to /result when valid data is submitted" in {
+
+      when(mockEoriNumberCache.set(any(), eqTo(CheckSingleEoriNumberRequest(eoriNumber))))
+        .thenReturn(Future.successful(true))
+
       val result = controller.onSubmit()(request.withFormUrlEncodedBody("eori" -> eoriNumber))
       status(result) shouldBe SEE_OTHER
       redirectLocation(result) shouldBe Some(routes.CheckEoriNumberController.result().url)
@@ -88,11 +96,13 @@ class CheckEoriNumberControllerSpec extends BaseSpec with BeforeAndAfterEach {
       "form is empty" in {
         val result = controller.onSubmit()(request.withFormUrlEncodedBody("eori" -> ""))
         contentAsString(result) should include(messagesApi("error.eori.required"))
+        verifyNoInteractions(mockEoriNumberCache)
       }
 
       "form with invalid data" in {
         val result = controller.onSubmit()(request.withFormUrlEncodedBody("eori" -> "XYZ"))
         contentAsString(result) should include(messagesApi("error.eori.invalid"))
+        verifyNoInteractions(mockEoriNumberCache)
       }
     }
   }
@@ -100,16 +110,18 @@ class CheckEoriNumberControllerSpec extends BaseSpec with BeforeAndAfterEach {
   "POST /result" should {
 
     val validRequest = FakeRequest("POST", "/results")
-      .withSession(eoriKey -> eoriNumber)
 
     val validXIRequest = FakeRequest("POST", "/results")
-      .withSession(eoriKey -> eoriNumber)
       .withFormUrlEncodedBody("eori" -> xiEoriNumber)
 
     "return 200" in {
-      when(mockCheckEoriNumberConnector.check(any())(any(), any())).thenReturn(
-        Future.successful(Some(mockValidResponse))
-      )
+
+      when(mockEoriNumberCache.get(any()))
+        .thenReturn(Future.successful(Some(CheckSingleEoriNumberRequest(eoriNumber))))
+
+      when(mockCheckEoriNumberConnector.check(any())(any(), any()))
+        .thenReturn(Future.successful(Some(mockValidResponse)))
+
       val result = controller.result(validRequest)
       status(result) shouldBe Status.OK
       contentAsString(result) should include(messagesApi("result.valid.heading"))
@@ -120,18 +132,27 @@ class CheckEoriNumberControllerSpec extends BaseSpec with BeforeAndAfterEach {
     }
 
     "contain content for an XI EORI" in {
+
+      when(mockEoriNumberCache.get(any()))
+        .thenReturn(Future.successful(Some(CheckSingleEoriNumberRequest(xiEoriNumber))))
+
       when(mockCheckEoriNumberConnector.check(any())(any(), any())).thenReturn(
         Future.successful(Some(mockValidResponse.map(_.copy(eori = xiEoriNumber))))
       )
+
       val result = controller.result(validXIRequest)
       contentAsString(result) should include(messagesApi("result.xi.heading"))
     }
 
     "contain content for invalid EORI" in {
 
+      val invalidEori = "GB999999999999"
+
       val badRequest = FakeRequest("POST", "/results")
-        .withSession(eoriKey -> eoriNumber)
-        .withFormUrlEncodedBody("eori" -> "GB999999999999")
+        .withFormUrlEncodedBody("eori" -> invalidEori)
+
+      when(mockEoriNumberCache.get(any()))
+        .thenReturn(Future.successful(Some(CheckSingleEoriNumberRequest(invalidEori))))
 
       when(mockCheckEoriNumberConnector.check(any())(any(), any())).thenReturn(
         Future.successful(Some(mockValidResponse.map(_.copy(valid = false))))
@@ -142,14 +163,32 @@ class CheckEoriNumberControllerSpec extends BaseSpec with BeforeAndAfterEach {
       contentAsString(result) should include(messagesApi("common.feedback.p1"))
       contentAsString(result) should include(messagesApi("common.feedback.link"))
       contentAsString(result) should include(messagesApi("common.feedback.p2"))
-
     }
 
-    "throw an exception when backend returns No data" in {
-      when(mockCheckEoriNumberConnector.check(any())(any(), any())).thenReturn(Future.successful(None))
-      val result = intercept[controller.MissingCheckResponseException](await(controller.result(validRequest)))
-      result.getMessage shouldBe "no CheckResponse from CheckEoriNumberConnector"
+    "throw an exception" when {
+
+      "EORI number cannot be retrieved from cache" in {
+
+        when(mockEoriNumberCache.get(any()))
+          .thenReturn(Future.successful(None))
+
+        val result = intercept[controller.MissingCheckResponseException](await(controller.result(validRequest)))
+        result.getMessage shouldBe "no CheckResponse from CheckEoriNumberConnector"
+
+        verifyNoInteractions(mockCheckEoriNumberConnector)
+      }
+
+      "backend returns No data" in {
+
+        when(mockEoriNumberCache.get(any()))
+          .thenReturn(Future.successful(Some(CheckSingleEoriNumberRequest(eoriNumber))))
+
+        when(mockCheckEoriNumberConnector.check(any())(any(), any()))
+          .thenReturn(Future.successful(None))
+
+        val result = intercept[controller.MissingCheckResponseException](await(controller.result(validRequest)))
+        result.getMessage shouldBe "no CheckResponse from CheckEoriNumberConnector"
+      }
     }
   }
-
 }

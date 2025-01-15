@@ -17,6 +17,7 @@
 @import uk.gov.hmrc.checkeorinumberfrontend.config.AppConfig
 @import uk.gov.hmrc.checkeorinumberfrontend.views.html._
 @import uk.gov.hmrc.checkeorinumberfrontend.views.html.components.{Button, InputText}
+@import uk.gov.hmrc.checkeorinumberfrontend.controllers.actions.RequestWithId
 
 @this(
         layout: Layout,
@@ -27,7 +28,7 @@
         govukErrorSummary: GovukErrorSummary
 )
 
-@(checkForm: Form[_])(implicit request: Request[_], messages: Messages)
+@(checkForm: Form[_])(implicit request: RequestWithId[_], messages: Messages)
 @hasErrors = @{checkForm.hasErrors}
 @layout(pageTitle = messages("checkpage.title"), hasErrors = hasErrors) {
     @formHelper(action = uk.gov.hmrc.checkeorinumberfrontend.controllers.routes.CheckEoriNumberController.onSubmit()) {

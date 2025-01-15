@@ -32,4 +32,6 @@ class AppConfig @Inject() (config: Configuration, servicesConfig: ServicesConfig
 
   lazy val languageTranslationEnabled: Boolean =
     config.getOptional[Boolean]("microservice.services.features.welsh-translation").getOrElse(true)
+
+  lazy val sessionCacheTtl = config.get[Int]("mongodb.timeToLiveInSeconds")
 }
