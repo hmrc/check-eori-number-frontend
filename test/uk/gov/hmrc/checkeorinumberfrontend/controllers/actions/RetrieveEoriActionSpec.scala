@@ -46,14 +46,14 @@ class RetrieveEoriActionSpec extends BaseSpec with ScalaFutures with BeforeAndAf
 
     "retrieve a EORI number from the cache using the ID from the given request" in {
 
-      val id = "1234567890"
-      val eori = "0987654321"
+      val id      = "1234567890"
+      val eori    = "0987654321"
       val content = "/test/success"
       when(mockEoriNumberCache.get(eqTo(id)))
         .thenReturn(Future.successful(Some(CheckSingleEoriNumberRequest(eori))))
 
-      val result = action.invokeBlock(RequestWithId(id, FakeRequest()), (_: RequestWithEori[_]) =>
-        Future.successful(Ok(content)))
+      val result =
+        action.invokeBlock(RequestWithId(id, FakeRequest()), (_: RequestWithEori[_]) => Future.successful(Ok(content)))
 
       status(result) shouldBe OK
       contentAsString(result) should include(content)
@@ -67,8 +67,9 @@ class RetrieveEoriActionSpec extends BaseSpec with ScalaFutures with BeforeAndAf
       when(mockEoriNumberCache.get(eqTo(id)))
         .thenReturn(Future.successful(None))
 
-      val result = action.invokeBlock(RequestWithId(id, FakeRequest()), (_: RequestWithEori[_]) =>
-        Future.successful(Ok("Success!"))
+      val result = action.invokeBlock(
+        RequestWithId(id, FakeRequest()),
+        (_: RequestWithEori[_]) => Future.successful(Ok("Success!"))
       )
 
       status(result) shouldBe SEE_OTHER

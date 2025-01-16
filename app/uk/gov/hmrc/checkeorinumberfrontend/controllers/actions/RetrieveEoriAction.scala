@@ -25,11 +25,11 @@ import uk.gov.hmrc.checkeorinumberfrontend.repositories.EoriNumberCache
 import scala.concurrent.{ExecutionContext, Future}
 
 class RetrieveEoriAction @Inject() (
-                                     eoriNumberCache: EoriNumberCache,
-                                     mcc: MessagesControllerComponents
-                                   ) extends ActionRefiner[RequestWithId, RequestWithEori]
-  with Results
-  with Logging {
+  eoriNumberCache: EoriNumberCache,
+  mcc: MessagesControllerComponents
+) extends ActionRefiner[RequestWithId, RequestWithEori]
+    with Results
+    with Logging {
 
   override protected def refine[A](request: RequestWithId[A]): Future[Either[Result, RequestWithEori[A]]] = {
     eoriNumberCache.get(request.recordId) map {

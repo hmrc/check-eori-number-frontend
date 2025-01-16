@@ -36,11 +36,9 @@ class UnauthenticatedActionSpec extends BaseSpec with ScalaFutures {
       "the session ID is found from the request session" in {
 
         val sessionId = "1234567890"
-        val url = "/test/success"
-        val request = FakeRequest().withSession("sessionId" -> sessionId)
-        val result = action.invokeBlock(request, (_: RequestWithId[AnyContent]) =>
-          Future.successful(Redirect(url))
-        )
+        val url       = "/test/success"
+        val request   = FakeRequest().withSession("sessionId" -> sessionId)
+        val result    = action.invokeBlock(request, (_: RequestWithId[AnyContent]) => Future.successful(Redirect(url)))
 
         status(result) shouldBe SEE_OTHER
         redirectLocation(result) shouldBe Some(url)
@@ -52,8 +50,9 @@ class UnauthenticatedActionSpec extends BaseSpec with ScalaFutures {
       "no session ID can be found" in {
 
         assertThrows[IllegalStateException] {
-          action.invokeBlock(FakeRequest(), (_: RequestWithId[AnyContent]) =>
-            Future.successful(Ok("Success!"))
+          action.invokeBlock(
+            FakeRequest(),
+            (_: RequestWithId[AnyContent]) => Future.successful(Ok("Success!"))
           ).futureValue
         }
       }
