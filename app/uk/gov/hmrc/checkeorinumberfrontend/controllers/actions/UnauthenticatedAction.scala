@@ -18,29 +18,30 @@ package uk.gov.hmrc.checkeorinumberfrontend.controllers.actions
 
 import com.google.inject.Inject
 import play.api.mvc._
-import uk.gov.hmrc.auth.core._
+import uk.gov.hmrc.checkeorinumberfrontend.models.internal.CheckSingleEoriNumberRequest
+import uk.gov.hmrc.play.http.HeaderCarrierConverter
 
-import java.util.UUID
 import scala.concurrent.{ExecutionContext, Future}
 
-case class RequestWithId[A](uuid: String, request: Request[A]) extends WrappedRequest[A](request)
+case class RequestWithId[A](recordId: String, request: Request[A]) extends WrappedRequest[A](request)
+
+case class RequestWithEori[A](eoriNumber: CheckSingleEoriNumberRequest, request: Request[A])
+    extends WrappedRequest[A](request)
 
 class UnauthenticatedAction @Inject() (
-                                      mcc: MessagesControllerComponents
-                                    ) extends ActionBuilder[RequestWithId, AnyContent] with ActionFunction[Request, RequestWithId] {
+  mcc: MessagesControllerComponents
+) extends ActionBuilder[RequestWithId, AnyContent]
+    with ActionFunction[Request, RequestWithId] {
 
   implicit override val executionContext: ExecutionContext = mcc.executionContext
   override val parser: BodyParser[AnyContent]              = mcc.parsers.defaultBodyParser
 
   override def invokeBlock[A](
-                               request: Request[A],
-                               block: RequestWithId[A] => Future[Result]
-                             ): Future[Result] = {
-    request match {
-      case requestWithId: RequestWithId[A] =>
-        block(requestWithId)
-      case request =>
-        block(RequestWithId(UUID.randomUUID().toString, request))
+    request: Request[A],
+    block: RequestWithId[A] => Future[Result]
+  ): Future[Result] =
+    HeaderCarrierConverter.fromRequestAndSession(request, request.session).sessionId match {
+      case Some(id) => block(RequestWithId(id.value, request))
+      case None     => throw new IllegalStateException("No Session ID found")
     }
-  }
 }

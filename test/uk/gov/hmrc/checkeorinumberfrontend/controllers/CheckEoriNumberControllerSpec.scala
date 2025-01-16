@@ -24,7 +24,7 @@ import play.api.http.Status
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.checkeorinumberfrontend.connectors.CheckEoriNumberConnector
-import uk.gov.hmrc.checkeorinumberfrontend.controllers.actions.UnauthenticatedAction
+import uk.gov.hmrc.checkeorinumberfrontend.controllers.actions.{RetrieveEoriAction, UnauthenticatedAction}
 import uk.gov.hmrc.checkeorinumberfrontend.models.internal.CheckSingleEoriNumberRequest
 import uk.gov.hmrc.checkeorinumberfrontend.models.{CheckResponse, EoriNumber}
 import uk.gov.hmrc.checkeorinumberfrontend.repositories.EoriNumberCache
@@ -48,6 +48,7 @@ class CheckEoriNumberControllerSpec extends BaseSpec with BeforeAndAfterEach {
   val controller = new CheckEoriNumberController(
     mcc,
     app.injector.instanceOf[UnauthenticatedAction],
+    new RetrieveEoriAction(mockEoriNumberCache, stubMessagesControllerComponents()),
     mockCheckEoriNumberConnector,
     mockEoriNumberCache,
     checkPage,
@@ -63,15 +64,18 @@ class CheckEoriNumberControllerSpec extends BaseSpec with BeforeAndAfterEach {
   }
 
   "GET /" should {
+
+    val request = fakeRequest.withSession("sessionId" -> "1234567890")
+
     "return 200 and load the page" in {
-      val result = controller.checkForm(fakeRequest)
+      val result = controller.checkForm(request)
       status(result) shouldBe Status.OK
       contentType(result) shouldBe Some("text/html")
       contentAsString(result) should include(messagesApi("checkpage.title"))
     }
 
     "return HTML" in {
-      val result = controller.checkForm(fakeRequest)
+      val result = controller.checkForm(request)
       contentType(result) shouldBe Some("text/html")
       charset(result) shouldBe Some("utf-8")
     }
@@ -79,7 +83,7 @@ class CheckEoriNumberControllerSpec extends BaseSpec with BeforeAndAfterEach {
 
   "POST /" should {
 
-    val request = FakeRequest("POST", "/")
+    val request = FakeRequest("POST", "/").withSession("sessionId" -> "1234567890")
 
     "return 303, save to cache and redirect to /result when valid data is submitted" in {
 
@@ -109,9 +113,10 @@ class CheckEoriNumberControllerSpec extends BaseSpec with BeforeAndAfterEach {
 
   "POST /result" should {
 
-    val validRequest = FakeRequest("POST", "/results")
+    val validRequest = FakeRequest("POST", "/results").withSession("sessionId" -> "1234567890")
 
     val validXIRequest = FakeRequest("POST", "/results")
+      .withSession("sessionId" -> "1234567890")
       .withFormUrlEncodedBody("eori" -> xiEoriNumber)
 
     "return 200" in {
@@ -149,6 +154,7 @@ class CheckEoriNumberControllerSpec extends BaseSpec with BeforeAndAfterEach {
       val invalidEori = "GB999999999999"
 
       val badRequest = FakeRequest("POST", "/results")
+        .withSession("sessionId" -> "1234567890")
         .withFormUrlEncodedBody("eori" -> invalidEori)
 
       when(mockEoriNumberCache.get(any()))
@@ -166,17 +172,6 @@ class CheckEoriNumberControllerSpec extends BaseSpec with BeforeAndAfterEach {
     }
 
     "throw an exception" when {
-
-      "EORI number cannot be retrieved from cache" in {
-
-        when(mockEoriNumberCache.get(any()))
-          .thenReturn(Future.successful(None))
-
-        val result = intercept[controller.MissingCheckResponseException](await(controller.result(validRequest)))
-        result.getMessage shouldBe "no CheckResponse from CheckEoriNumberConnector"
-
-        verifyNoInteractions(mockCheckEoriNumberConnector)
-      }
 
       "backend returns No data" in {
 

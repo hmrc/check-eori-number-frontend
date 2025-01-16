@@ -32,25 +32,25 @@ class EoriNumberCache @Inject() (
   appConfig: AppConfig,
   mongo: MongoComponent,
   timestampSupport: TimestampSupport
-)(implicit ec: ExecutionContext) extends EntityCache[String, CheckSingleEoriNumberRequest]{
+)(implicit ec: ExecutionContext)
+    extends EntityCache[String, CheckSingleEoriNumberRequest] {
 
   lazy val format: Format[CheckSingleEoriNumberRequest] = CheckSingleEoriNumberRequest.format
 
   lazy val cacheRepo: MongoCacheRepository[String] = new MongoCacheRepository(
-    mongoComponent   = mongo,
-    collectionName   = "eori-number-cache",
-    ttl              = Duration(appConfig.sessionCacheTtl, TimeUnit.SECONDS),
+    mongoComponent = mongo,
+    collectionName = "eori-number-cache",
+    ttl = Duration(appConfig.sessionCacheTtl, TimeUnit.SECONDS),
     timestampSupport = timestampSupport,
-    cacheIdType      = CacheIdType.SimpleCacheId,
-    replaceIndexes   = false
+    cacheIdType = CacheIdType.SimpleCacheId,
+    replaceIndexes = false
   )
 
   def get(id: String): Future[Option[CheckSingleEoriNumberRequest]] =
     getFromCache(id)
 
-  def set(id: String, eoriNumber: CheckSingleEoriNumberRequest): Future[Boolean] = {
+  def set(id: String, eoriNumber: CheckSingleEoriNumberRequest): Future[Boolean] =
     putCache(id)(eoriNumber).map(_ => true)
-  }
 
   def remove(id: String): Future[Unit] =
     deleteFromCache(id)

@@ -15,11 +15,10 @@
  *@
 
 @import uk.gov.hmrc.checkeorinumberfrontend.models.CheckResponse
-@import uk.gov.hmrc.checkeorinumberfrontend.controllers.actions.RequestWithId
 
 @this(layout: Layout)
 
-@(checkResponse: CheckResponse)(implicit request: RequestWithId[_], messages: Messages)
+@(checkResponse: CheckResponse)(implicit request: Request[_], messages: Messages)
 
 @layout(pageTitle = messages("result.valid.heading")) {
         <div class="govuk-panel govuk-panel--confirmation">

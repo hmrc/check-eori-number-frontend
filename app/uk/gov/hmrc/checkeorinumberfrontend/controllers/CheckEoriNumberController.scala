@@ -22,8 +22,7 @@ import play.api.data.{Form, Mapping}
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.checkeorinumberfrontend.connectors.CheckEoriNumberConnector
-import uk.gov.hmrc.checkeorinumberfrontend.controllers.actions.UnauthenticatedAction
-import uk.gov.hmrc.checkeorinumberfrontend.models.CheckResponse
+import uk.gov.hmrc.checkeorinumberfrontend.controllers.actions.{RetrieveEoriAction, UnauthenticatedAction}
 import uk.gov.hmrc.checkeorinumberfrontend.models.internal.CheckSingleEoriNumberRequest
 import uk.gov.hmrc.checkeorinumberfrontend.repositories.EoriNumberCache
 import uk.gov.hmrc.checkeorinumberfrontend.views.html.templates._
@@ -35,6 +34,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class CheckEoriNumberController @Inject() (
   mcc: MessagesControllerComponents,
   unauthenticatedAction: UnauthenticatedAction,
+  retrieveEori: RetrieveEoriAction,
   connector: CheckEoriNumberConnector,
   eoriNumberCache: EoriNumberCache,
   checkPage: CheckPage,
@@ -47,7 +47,7 @@ class CheckEoriNumberController @Inject() (
 
   import CheckEoriNumberController.form
 
-  def checkForm: Action[AnyContent] = unauthenticatedAction { implicit request =>
+  def checkForm: Action[AnyContent] = Action { implicit request =>
     Ok(checkPage(form))
   }
 
@@ -55,17 +55,15 @@ class CheckEoriNumberController @Inject() (
     form.bindFromRequest().fold(
       errors => Future.successful(BadRequest(checkPage(errors))),
       value =>
-        eoriNumberCache.set(request.uuid, value) map { _ =>
+        eoriNumberCache.set(request.recordId, value) map { _ =>
           Redirect(routes.CheckEoriNumberController.result())
         }
     )
   }
 
-  def result: Action[AnyContent] = unauthenticatedAction.async { implicit request =>
+  def result: Action[AnyContent] = (unauthenticatedAction andThen retrieveEori).async { implicit request =>
     for {
-      eoriNumberOpt     <- eoriNumberCache.get(request.uuid)
-      checkResponsesOpt <-
-        eoriNumberOpt.fold[Future[Option[List[CheckResponse]]]](Future.successful(None))(connector.check)
+      checkResponsesOpt <- connector.check(request.eoriNumber)
     } yield {
       checkResponsesOpt match {
         case Some(head :: _) if head.eori.matches("XI[0-9]{12}|XI[0-9]{15}$") =>
