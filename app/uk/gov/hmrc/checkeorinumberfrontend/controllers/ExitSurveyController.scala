@@ -27,7 +27,7 @@ class ExitSurveyController @Inject() (
 ) extends FrontendController(mcc) {
 
   def exitSurvey: Action[AnyContent] = Action {
-    Redirect(appConfig.feedbackSurveyUrl).withNewSession
+    Redirect(appConfig.feedbackSurveyUrl)
   }
 
 }
