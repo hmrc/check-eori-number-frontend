@@ -31,7 +31,6 @@ lazy val microservice = Project(appName, file("."))
     )
     // ***************
   )
-  .settings(resolvers += Resolver.jcenterRepo)
 
 PlayKeys.playDefaultPort := 8350
 val appName         = "check-eori-number-frontend"
