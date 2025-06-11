@@ -28,6 +28,7 @@ class AppConfig @Inject() (config: Configuration, servicesConfig: ServicesConfig
   lazy val eisUrl: String          = s"${servicesConfig.baseUrl("check-eori-number")}/$chenUrl"
 
   lazy val feedbackSurveyUrl: String = servicesConfig.getConfString("feedback-survey.url", "")
+  lazy val signOutUrl: String        = servicesConfig.getConfString("bas-gateway.logOut", "")
   def languageMap: Map[String, Lang] = Map("english" -> Lang("en"), "cymraeg" -> Lang("cy"))
 
   lazy val languageTranslationEnabled: Boolean =

@@ -21,6 +21,7 @@ import play.api.mvc.Result
 import play.api.test.Helpers._
 import uk.gov.hmrc.checkeorinumberfrontend.utils.BaseSpec
 
+import java.net.URLEncoder
 import scala.concurrent.Future
 
 class ExitSurveyControllerSpec extends BaseSpec with OptionValues {
@@ -34,9 +35,11 @@ class ExitSurveyControllerSpec extends BaseSpec with OptionValues {
   "ExitSurveyController" should {
     "redirect to correct 'exitSurvey' page" in {
 
-      val result: Future[Result] = controller.exitSurvey(fakeRequest)
+      val result: Future[Result]     = controller.exitSurvey(fakeRequest)
+      val feedbackURLEncoded: String = URLEncoder.encode(appConfig.feedbackSurveyUrl, "UTF-8")
       status(result) shouldBe SEE_OTHER
-      redirectLocation(result).value should include("/feedback/check-eori-number")
+
+      redirectLocation(result).value shouldEqual s"${appConfig.signOutUrl}?continue=$feedbackURLEncoded"
     }
   }
 
