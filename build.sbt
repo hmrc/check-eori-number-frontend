@@ -3,7 +3,8 @@ import uk.gov.hmrc.DefaultBuildSettings
 scalafmtOnCompile := true
 
 ThisBuild / majorVersion := 0
-ThisBuild / scalaVersion := "2.13.16"
+ThisBuild / scalaVersion := "3.3.7"
+ThisBuild / scalacOptions += "-Wconf:msg=Flag.*repeatedly:s"
 
 lazy val microservice = Project(appName, file("."))
   .enablePlugins(play.sbt.PlayScala,SbtDistributablesPlugin)
@@ -21,20 +22,17 @@ lazy val microservice = Project(appName, file("."))
     // ***************
     // Use the silencer plugin to suppress warnings
     // You may turn it on for `views` too to suppress warnings from unused imports in compiled twirl templates, but this will hide other warnings.
-    scalacOptions += "-Wconf:cat=unused-imports&src=html/.*:s",
-    scalacOptions += "-Wconf:cat=unused-imports&src=routes/.*:s",
-    scalacOptions += "-P:silencer:pathFilters=routes",
+    scalacOptions += "-Wconf:msg=unused import&src=html/.*:s",
+    scalacOptions += "-Wconf:cat=unused import&src=routes/.*:s",
     scoverageSettings,
     libraryDependencies ++= Seq(
-      compilerPlugin("com.github.ghik" % "silencer-plugin" % silencerVersion cross CrossVersion.full),
-      "com.github.ghik" % "silencer-lib" % silencerVersion % Provided cross CrossVersion.full
+      
     )
     // ***************
   )
 
 PlayKeys.playDefaultPort := 8350
 val appName         = "check-eori-number-frontend"
-val silencerVersion = "1.7.19"
 
 lazy val it = project
   .enablePlugins(PlayScala)

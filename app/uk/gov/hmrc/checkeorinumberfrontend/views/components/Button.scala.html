@@ -14,8 +14,10 @@
  * limitations under the License.
  *@
 
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.button.{Button => ButtonModel}
+
 @this(govukButton: GovukButton)
 
 @(msg: String)(implicit messages: Messages)
 
-@govukButton(Button(content = Text(messages(msg))))
+@govukButton(new ButtonModel(content = Text(messages(msg))))

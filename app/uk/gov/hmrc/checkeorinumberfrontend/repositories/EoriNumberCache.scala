@@ -19,7 +19,7 @@ package uk.gov.hmrc.checkeorinumberfrontend.repositories
 import play.api.libs.json.Format
 import uk.gov.hmrc.checkeorinumberfrontend.config.AppConfig
 import uk.gov.hmrc.checkeorinumberfrontend.models.internal.CheckSingleEoriNumberRequest
-import uk.gov.hmrc.mongo.cache.{CacheIdType, EntityCache, MongoCacheRepository}
+import uk.gov.hmrc.mongo.cache.{CacheIdType, DataKey, EntityCache, MongoCacheRepository}
 import uk.gov.hmrc.mongo.{MongoComponent, TimestampSupport}
 
 import java.util.concurrent.TimeUnit
@@ -35,9 +35,9 @@ class EoriNumberCache @Inject() (
 )(implicit ec: ExecutionContext)
     extends EntityCache[String, CheckSingleEoriNumberRequest] {
 
-  lazy val format: Format[CheckSingleEoriNumberRequest] = CheckSingleEoriNumberRequest.format
+  implicit val format: Format[CheckSingleEoriNumberRequest] = CheckSingleEoriNumberRequest.format
 
-  lazy val cacheRepo: MongoCacheRepository[String] = new MongoCacheRepository(
+  val cacheRepo: MongoCacheRepository[String] = new MongoCacheRepository(
     mongoComponent = mongo,
     collectionName = "eori-number-cache",
     ttl = Duration(appConfig.sessionCacheTtl, TimeUnit.SECONDS),
@@ -45,6 +45,18 @@ class EoriNumberCache @Inject() (
     cacheIdType = CacheIdType.SimpleCacheId,
     replaceIndexes = false
   )
+
+  override def putCache(cacheId: String)(data: CheckSingleEoriNumberRequest)(implicit
+    ec: ExecutionContext
+  ): Future[Unit] = {
+    val dataKey = DataKey[CheckSingleEoriNumberRequest]("dataKey")
+    cacheRepo.put[CheckSingleEoriNumberRequest](cacheId)(dataKey, data).map(_ => ())
+  }
+
+  override def getFromCache(cacheId: String): Future[Option[CheckSingleEoriNumberRequest]] = {
+    val dataKey = DataKey[CheckSingleEoriNumberRequest]("dataKey")
+    cacheRepo.get[CheckSingleEoriNumberRequest](cacheId)(dataKey)
+  }
 
   def get(id: String): Future[Option[CheckSingleEoriNumberRequest]] =
     getFromCache(id)
