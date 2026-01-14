@@ -51,7 +51,8 @@ class CheckEoriNumberController @Inject() (
     Ok(checkPage(form))
   }
 
-  def onSubmit(): Action[AnyContent] = unauthenticatedAction.async { implicit request =>
+  def onSubmit(): Action[AnyContent] = unauthenticatedAction.async { request =>
+    given play.api.mvc.Request[AnyContent] = request
     form.bindFromRequest().fold(
       errors => Future.successful(BadRequest(checkPage(errors))),
       value =>
@@ -87,7 +88,7 @@ object CheckEoriNumberController {
   val form: Form[CheckSingleEoriNumberRequest] = Form(
     mapping(
       "eori" -> mandatoryEoriNumber("eori")
-    )(CheckSingleEoriNumberRequest.apply)(CheckSingleEoriNumberRequest.unapply)
+    )(CheckSingleEoriNumberRequest.apply)(o => Some(o.eoriNumber))
   )
 
   private def combine[T](c1: Constraint[T], c2: Constraint[T]): Constraint[T] = Constraint { v =>

@@ -2,6 +2,7 @@
 
 !.gitignore
 !.scalafmt.conf
+metals.sbt
 .cache
 /.classpath
 db

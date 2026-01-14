@@ -185,5 +185,15 @@ class CheckEoriNumberControllerSpec extends BaseSpec with BeforeAndAfterEach {
         result.getMessage shouldBe "no CheckResponse from CheckEoriNumberConnector"
       }
     }
+
+    "form " should {
+      "unbind correctly when filled with existing data" in {
+        val existingData = CheckSingleEoriNumberRequest(eoriNumber)
+        val filledForm   = CheckEoriNumberController.form.fill(existingData)
+
+        filledForm.data("eori") shouldBe eoriNumber
+        filledForm.errors shouldBe empty
+      }
+    }
   }
 }
