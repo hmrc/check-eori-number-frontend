@@ -11,6 +11,7 @@ lazy val microservice = Project(appName, file("."))
   .disablePlugins(JUnitXmlReportPlugin) //Required to prevent https://github.com/scalatest/scalatest/issues/1427
   .settings(
     libraryDependencies ++= AppDependencies.compile ++ AppDependencies.test,
+    excludeDependencies += ExclusionRule("org.lz4", "lz4-java"),
     TwirlKeys.templateImports ++= Seq(
       "uk.gov.hmrc.checkeorinumberfrontend.config.AppConfig",
       "uk.gov.hmrc.checkeorinumberfrontend.views.html._",
