@@ -7,8 +7,8 @@ ThisBuild / scalaVersion := "3.3.7"
 ThisBuild / scalacOptions += "-Wconf:msg=Flag.*repeatedly:s"
 
 lazy val microservice = Project(appName, file("."))
-  .enablePlugins(play.sbt.PlayScala,SbtDistributablesPlugin)
-  .disablePlugins(JUnitXmlReportPlugin) //Required to prevent https://github.com/scalatest/scalatest/issues/1427
+  .enablePlugins(play.sbt.PlayScala, SbtDistributablesPlugin)
+  .disablePlugins(JUnitXmlReportPlugin) // Required to prevent https://github.com/scalatest/scalatest/issues/1427
   .settings(
     libraryDependencies ++= AppDependencies.compile ++ AppDependencies.test,
     excludeDependencies += ExclusionRule("org.lz4", "lz4-java"),
@@ -27,13 +27,12 @@ lazy val microservice = Project(appName, file("."))
     scalacOptions += "-Wconf:cat=unused import&src=routes/.*:s",
     scoverageSettings,
     libraryDependencies ++= Seq(
-      
     )
     // ***************
   )
 
 PlayKeys.playDefaultPort := 8350
-val appName         = "check-eori-number-frontend"
+val appName = "check-eori-number-frontend"
 
 lazy val it = project
   .enablePlugins(PlayScala)
