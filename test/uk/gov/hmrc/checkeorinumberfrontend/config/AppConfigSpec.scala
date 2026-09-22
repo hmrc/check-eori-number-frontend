@@ -23,7 +23,7 @@ import play.api.i18n.{Lang, Messages, MessagesImpl}
 import uk.gov.hmrc.checkeorinumberfrontend.utils.BaseSpec
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
-class AppConfigSpec extends BaseSpec with BeforeAndAfterEach{
+class AppConfigSpec extends BaseSpec with BeforeAndAfterEach {
   private val mockServiceConfig = mock[ServicesConfig]
 
   override def beforeEach(): Unit = {
