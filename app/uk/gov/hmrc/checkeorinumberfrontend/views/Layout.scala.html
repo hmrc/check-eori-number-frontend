@@ -19,10 +19,17 @@
 @import uk.gov.hmrc.hmrcfrontend.views.html.helpers.HmrcReportTechnicalIssueHelper
 @import uk.gov.hmrc.hmrcfrontend.views.html.helpers.HmrcStandardPage
 @import uk.gov.hmrc.hmrcfrontend.views.viewmodels.hmrcstandardpage.HmrcStandardPageParams
+@import uk.gov.hmrc.hmrcfrontend.views.viewmodels.hmrcstandardpage.Banners
+@import uk.gov.hmrc.hmrcfrontend.views.viewmodels.userresearchbanner.UserResearchBanner
 
 @this(hmrcStandardPage: HmrcStandardPage, standardBetaBanner: StandardBetaBanner, appConfig: AppConfig, hmrcReportTechnicalIssueHelper: HmrcReportTechnicalIssueHelper)
 
-@(pageTitle: String, hasErrors: Boolean = false)(contentBlock: Html)(implicit request: RequestHeader, messages: Messages)
+@(pageTitle: String, hasErrors: Boolean = false, displayUserResearchBanner: Boolean = false)(contentBlock: Html)(implicit request: RequestHeader, messages: Messages)
+
+@banners = @{
+    Banners(userResearchBanner = Option.when(displayUserResearchBanner && appConfig.userResearchBannerEnabled)(
+    UserResearchBanner(url = appConfig.userResearchBannerUrl(), hideCloseButton = true)))
+}
 
 @content = {
   @contentBlock
@@ -33,6 +40,7 @@
 
 @hmrcStandardPage(
     HmrcStandardPageParams(
+    banners = banners,
     pageTitle = Some(gdsTitle),
     isWelshTranslationAvailable = appConfig.languageTranslationEnabled
     )

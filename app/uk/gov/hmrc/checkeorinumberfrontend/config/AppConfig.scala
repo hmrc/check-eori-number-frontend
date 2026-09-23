@@ -18,7 +18,7 @@ package uk.gov.hmrc.checkeorinumberfrontend.config
 
 import javax.inject.{Inject, Singleton}
 import play.api.Configuration
-import play.api.i18n.Lang
+import play.api.i18n.{Lang, Messages}
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 @Singleton
@@ -35,4 +35,15 @@ class AppConfig @Inject() (config: Configuration, servicesConfig: ServicesConfig
     config.getOptional[Boolean]("microservice.services.features.welsh-translation").getOrElse(true)
 
   lazy val sessionCacheTtl: Int = config.get[Int]("mongodb.timeToLiveInSeconds")
+
+  lazy val userResearchBannerEnabled: Boolean =
+    config.getOptional[Boolean]("microservice.services.features.user-research-banner").getOrElse(false)
+
+  def userResearchBannerUrl()(implicit messages: Messages): String =
+    val languageKey = messages.lang.language match {
+      case "cy" => "cy"
+      case _    => "en"
+    }
+
+    config.get[String](s"external-url.user-research-banner-$languageKey")
 }
